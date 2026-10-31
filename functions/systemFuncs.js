@@ -183,8 +183,7 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
             console.log('updating binary...');
             
    var _update = await spawn(path.join(_dir,"../binaries","ytdlp"), [ "-U" ], {
-       stdio: [ "pipe","pipe","pipe" ],
-   shell:true
+       stdio: [ "pipe","pipe","pipe" ]
    }
 );
    
@@ -331,21 +330,28 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
         //console.log(stdout,stderr);
        
 };
+         //console.log(final_media_path);
+        // return;
+
+         
+         
          if(final_media_path){
              var crypto_identifier = crypto.randomBytes(8).toString("hex").toUpperCase();
-             
+              
              var new_final_path = final_media_path?.replace(".mp4","")+"_"+crypto_identifier?.replaceAll('"',"")+".mp4";
+              
               if(!fs.existsSync(new_final_path)){
           fs.writeFileSync(new_final_path,"", { recursive:true})
               }
                    
+             
               
              var dataArray2 = [];
               
     var ffmpeg_spawn = await spawn(path.join(_dir,"../binaries","ffmpeg"),
                                    [
         "-i",
-        final_media_path,
+        path.join(final_media_path),
         "-c:v",
         "libx264",
         "-preset",
@@ -358,12 +364,11 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
         "aac",
         "-b:a",
         "192k",
-        new_final_path
+        path.join(new_final_path)
     ],
                                    { 
-                                        stdio: ["pipe","pipe","pipe"],
-                                        shell:true
-                                        
+                                        stdio: ["pipe","pipe","pipe"]
+                                                                           
 }
                                   )
    
