@@ -196,6 +196,7 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
    reject(err.toString());
 });
        _update.on("close",(code)=>{
+            
             //be moved in the future           
           //console.log(code);
             
@@ -210,7 +211,7 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
    console.log("update complete, running process...");
         
         resolve({
-             update_success : true, message:"update_succesfull
+             update_success : true, message:"update_succesfull"
                   });
 }
 
