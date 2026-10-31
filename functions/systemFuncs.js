@@ -196,9 +196,9 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
    reject(err.toString());
 });
        _update.on("close",(code)=>{
-            //be moved in the future
+            //be moved in the future           
+          //console.log(code);
             
-            console.log(code)
    if(code > 0){
         
     reject({ 
