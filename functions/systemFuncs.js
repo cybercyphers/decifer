@@ -195,15 +195,24 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
 });
        _update.on("close",(code)=>{
    if(code > 0){
-    reject("ytdlp update failed...");
+        
+    reject({ 
+         success:false, 
+         message: "ytdlp update failed..."
+    });
        
 }else{  
-    resolve("update complete, running process...");
+   console.log("update complete, running process...");
+        
+        resolve({
+             update_success : true, message:"update_succesfull
+                  });
 }
 
 })
    });
-           // console.log(ytdlpPromise);
+     
+             //console.log(ytdlpPromise);
           
 }
     
@@ -310,9 +319,10 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
       "-o", path.join(os.homedir(),vid_title_path.replaceAll(" ","")),
       `${String(link)}`,
       "--newline",
-  "--no-playlist"
+      "--no-playlist"
   ]);
     /* return*/ 
+        console.log(stdout,stderr);
        
 };
          if(final_media_path){
@@ -338,7 +348,9 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
         "192k",
         new_final_path
     ],
-                                   { stdio: ["pipe","pipe","pipe"]
+                                   { 
+                                        stdio: ["pipe","pipe","pipe"]
+                                        
 }
                                   )
    
