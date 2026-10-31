@@ -183,7 +183,9 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
             console.log('updating binary...');
             
    var _update = await spawn(path.join(_dir,"../binaries","ytdlp"), [ "-U" ], {
-       stdio: [ "pipe","pipe","pipe" ]}
+       stdio: [ "pipe","pipe","pipe" ],
+   shell:true
+   }
 );
    
    var ytdlpPromise = await new Promise((resolve,reject)=>{
@@ -349,7 +351,8 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
         new_final_path
     ],
                                    { 
-                                        stdio: ["pipe","pipe","pipe"]
+                                        stdio: ["pipe","pipe","pipe"],
+                                        shell:true
                                         
 }
                                   )
