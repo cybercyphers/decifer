@@ -335,6 +335,10 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
              var crypto_identifier = crypto.randomBytes(8).toString("hex").toUpperCase();
              
              var new_final_path = final_media_path?.replace(".mp4","")+"_"+crypto_identifier?.replaceAll('"',"")+".mp4";
+              if(!fs.existsSync(new_final_path)){
+          fs.writeFileSync(new_final_path,"", { recursive:true})
+              }
+                   
               
              var dataArray2 = [];
               
@@ -366,7 +370,9 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
 
 }
         var promiseData = await new Promise((resolve,reject)=>{
-            
+             
+          console.log(options.console);
+             
     ffmpeg_spawn.stderr.on("data",(data)=>{   
         if(options.console === true){
             
@@ -385,18 +391,20 @@ console.log(`\x1b[32m${data.toString()}\x1b[0m`);
 
 }else{
     
-    if(fs.existsSync(final_media_path)){
+    
+  var finished_response = { data : `saved merged format ${JSON.stringify({link})} to ${final_media_path} directory...`};
+          if(fs.existsSync(final_media_path)){
+         
     fs.unlinkSync(final_media_path,{ recursive:true })
     }
-  var finished_response = { data : `saved merged format ${JSON.stringify({link})} to ${final_media_path} directory...`};
-    /*
-    resolve(Buffer.concat(dataArray2).toString("utf8"));
- */
+    
+    resolve(finished_response);
+
     
 }
   })
 });
-        //console.log(promiseData);
+       return promiseData;
         
     }catch(err){
     Err(`an error occured executing command ytvid, ${String(err) || JSON.stringify(err)}. If error persist, please report at https://github.com/cybercyphers/decifer/issues`)
