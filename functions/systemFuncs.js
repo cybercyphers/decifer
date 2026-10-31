@@ -339,13 +339,7 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
              var crypto_identifier = crypto.randomBytes(8).toString("hex").toUpperCase();
               
              var new_final_path = final_media_path?.replace(".mp4","")+"_"+crypto_identifier?.replaceAll('"',"")+".mp4";
-              
-              if(!fs.existsSync(new_final_path)){
-          fs.writeFileSync(new_final_path,"", { recursive:true})
-              }
-                   
-             
-              
+          
              var dataArray2 = [];
               
     var ffmpeg_spawn = await spawn(path.join(_dir,"../binaries","ffmpeg"),
@@ -379,31 +373,33 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
          //console.log(options.console);
              
     ffmpeg_spawn.stderr.on("data",(data)=>{   
+         dataArray2.push(data);
+         
         if(options.console === true){
             
 console.log(`\x1b[32m${data.toString("utf8")}\x1b[0m`);
         //reject(data.toString());        
-            }else{}
+      }
 });
         
             ffmpeg_spawn.on("error",(e)=>{
       reject(e.toString());
             });
+             
             ffmpeg_spawn.on("close",(code)=>{
      if(code > 0){
          
      resolve({ data : `saved merged format ${JSON.stringify({link})} to ${final_media_path} directory but ffmpeg worker failed to execute global formatting => { recommended_player_in_this_situation: VLC player }`});
 
 }else{
-    
-    
+   
   var finished_response = { data : `saved merged format ${JSON.stringify({link})} to ${final_media_path} directory...`};
-          if(fs.existsSync(final_media_path)){
-         
+          
+          if(fs.existsSync(final_media_path)){         
     fs.unlinkSync(final_media_path,{ recursive:true })
     }
     
-    resolve(finished_response);
+       resolve(Buffer.concat(dataArray2).toString());
 
     
 }
