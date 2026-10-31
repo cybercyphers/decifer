@@ -5,33 +5,17 @@
 
 //Ready to brainstorm....
 
-/*
-
-This package's function is to help developers log info and debug their code on runtime and also use simple tools that dont necessarily need rebuild.
-
-
-*/
 
 
 
-
-
-
-
-/*import fs from "node:fs";
+import fs from "node:fs";
 import path,{ dirname } from "node:path";
-import { fileURLToPath } from "node:url";*/
-import {
-    sleep,
-    UUID as randomuuid,
-    ytvid,
-    toBinary,
-    toUtf8
-} from "../functions/systemFuncs.js";
+import { fileURLToPath } from "node:url";
+import matrix from "../functions/systemFuncs.js";
 
  import { Err } from "../functions/Error.js";
 import { _dirname } from "../functions/ESMFunc.js";
-
+import { _mdir } from "../dirPath.js";
 
 
 //console.log(JSON.stringify(process.env));
@@ -40,17 +24,11 @@ import { _dirname } from "../functions/ESMFunc.js";
 var PORT = process.env.SERVER_PORT;
 //console.log(`\n\x1b[1;32mstarting server on port ${PORT} \x1b[0m`);
 
-
-const defaultTools = {
-    randomuuid,
-    ytvid
-}
+//console.log(cypher)
 
 
 export  {
-    defaultTools as default,
-    toBinary,
-    toUtf8
+    matrix as default
 };
 
 //EOF
