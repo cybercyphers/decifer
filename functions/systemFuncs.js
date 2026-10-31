@@ -328,14 +328,16 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
       "--no-playlist"
   ]);
     /* return*/ 
-        console.log(stdout,stderr);
+        //console.log(stdout,stderr);
        
 };
          if(final_media_path){
              var crypto_identifier = crypto.randomBytes(8).toString("hex").toUpperCase();
              
              var new_final_path = final_media_path?.replace(".mp4","")+"_"+crypto_identifier?.replaceAll('"',"")+".mp4";
+              
              var dataArray2 = [];
+              
     var ffmpeg_spawn = await spawn(path.join(_dir,"../binaries","ffmpeg"),
                                    [
         "-i",
@@ -366,7 +368,7 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
         var promiseData = await new Promise((resolve,reject)=>{
             
     ffmpeg_spawn.stderr.on("data",(data)=>{   
-        if(options.console == true ){
+        if(options.console === true){
             
 console.log(`\x1b[32m${data.toString()}\x1b[0m`);
         //reject(data.toString());        
