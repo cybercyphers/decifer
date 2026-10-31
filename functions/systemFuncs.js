@@ -376,14 +376,14 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
 }
         var promiseData = await new Promise((resolve,reject)=>{
              
-          console.log(options.console);
+         //console.log(options.console);
              
     ffmpeg_spawn.stderr.on("data",(data)=>{   
         if(options.console === true){
             
-console.log(`\x1b[32m${data.toString()}\x1b[0m`);
+console.log(`\x1b[32m${data.toString("utf8")}\x1b[0m`);
         //reject(data.toString());        
-            }
+            }else{}
 });
         
             ffmpeg_spawn.on("error",(e)=>{
