@@ -8,15 +8,17 @@ these functions are system functions..
 
 
 import fs from "node:fs";
-import { execFile } from "node:child_process";
+import { execFile,spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
-import path from "node:path";
+import path,{ dirname } from "node:path";
+import crypto from "node:crypto";
 import { Err } from "./Error.js";
 import { _dirname } from "./ESMFunc.js";
 import os from "node:os";
-import crypto from "node:crypto";
-
-
+import { _mdir } from "../dirPath.js";
+import { ytdlp_up_todate } from "./versioner.js";
+var _dir = dirname(fileURLToPath(import.meta.url))
 //time delay for important information or functions that need some time instead of async-await..
 const sleep = (milliseconds)=>{
      const futureTime = Date.now()+milliseconds;
@@ -24,11 +26,91 @@ const sleep = (milliseconds)=>{
 };
 
 
+var execsync = promisify(execFile);
 
 
-//random uuid fingerprinting 
+    
+/*
+ @param {string} - the path if the file to be read;
+*/
+function media_type(content_path) {
+    var to_buffer = fs.readFileSync(content_path);  
+    const hex = to_buffer.toString('hex', 0, 64).toUpperCase();
+    
+//console.log(hex)
+    
+    if (hex.startsWith('89504E47')) return 'image/png';
+    if (hex.startsWith('FFD8FF')) return 'image/jpeg';
+    if (hex.startsWith('47494638')) return 'image/gif';
+    if (hex.startsWith('424D')) return 'image/bmp';
+    if (hex.startsWith('49492A00') || hex.startsWith('4D4D002A')) return 'image/tiff';
+    if (hex.startsWith('38425053')) return 'image/vnd.adobe.photoshop';
+    if (hex.startsWith('00000100')) return 'image/x-icon';
 
-function UUID() {
+    if (hex.startsWith('52494646')) {
+        const type = hex.slice(16, 24);
+        if (type === '57454250') return 'image/webp';
+        if (type === '41564920') return 'video/x-msvideo';
+        if (type === '57415645') return 'audio/x-wav';
+    }
+
+    if (hex.slice(8, 16) === '66747970') {
+        const brand = hex.slice(16, 24);
+        const map = {
+            '6D703431': 'video/mp4', '6D703432': 'video/mp4', '69736F6D': 'video/mp4',
+            '61766331': 'video/mp4', '4D345620': 'video/mp4', '6B646469': 'video/mp4',
+            '64617368': 'video/mp4', '6D703731': 'video/mp4', '49534F32': 'video/mp4',
+            '71742020': 'video/quicktime',
+            '33677034': 'video/3gpp', '33677035': 'video/3gpp', '33677036': 'video/3gpp',
+            '66326D31': 'video/3gpp',
+            '68656963': 'image/heic', '68656973': 'image/heic', '6D736631': 'image/heic',
+            '68656978': 'image/heic', '6865696D': 'image/heic', '6D6D7031': 'image/heic',
+            '61766966': 'image/avif', '61766973': 'image/avif',
+            '4D344120': 'audio/mp4', '4D344220': 'audio/mp4', '4D345020': 'audio/mp4',
+            '61636331': 'audio/mp4'
+        };
+        return map[brand] || 'video/mp4';
+    }
+
+    if (hex.startsWith('1A45DFA3')) {
+        return hex.includes('7765626D') ? 'video/webm' : 'video/x-matroska';
+    }
+
+    if (hex.startsWith('3026B2758E66CF11')) return 'video/x-ms-wmv';
+    if (hex.startsWith('464C5601')) return 'video/x-flv';
+    if (hex.startsWith('000001BA') || hex.startsWith('000001B3')) return 'video/mpeg';
+
+    if (hex.startsWith('494433') || hex.startsWith('FFFB') || hex.startsWith('FFF3') || hex.startsWith('FFF2')) return 'audio/mpeg';
+    if (hex.startsWith('4F676753')) return 'audio/ogg';
+    if (hex.startsWith('664C6143')) return 'audio/x-flac';
+    if (hex.startsWith('2321414D52')) return 'audio/amr';
+    if (hex.startsWith('4D546864')) return 'audio/midi';
+
+    if (hex.startsWith('25504456') || hex.startsWith('25504446')) return 'application/pdf';
+    if (hex.startsWith('504B0304')) return 'application/zip';
+    if (hex.startsWith('526172211A07')) return 'application/x-rar-compressed';
+    if (hex.startsWith('377ABCAF271C')) return 'application/x-7z-compressed';
+    if (hex.startsWith('1F8B08')) return 'application/gzip';
+    if (hex.startsWith('425A68')) return 'application/x-bzip2';
+    if (hex.startsWith('FD377A585A00')) return 'application/x-xz';
+
+    if (hex.startsWith('D0CF11E0A1B11AE1')) return 'application/msword';
+    if (hex.startsWith('4D5A')) return 'application/x-msdownload';
+    if (hex.startsWith('7F454C46')) return 'application/x-elf';
+
+    return 'unknown';
+}
+
+
+//console.log(media_type(path.join(_dir,".","image.jpg")));
+    
+
+class matrix{
+    
+  constructor(){}
+//random uuid fingerprinting
+
+ UUID() {
   return { uuid : `${"10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
     (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
   )}` }
@@ -37,26 +119,9 @@ function UUID() {
 /*
 we promisify execFile to make it async and avoid errors if the media is very large which will take a lot of time to fetch links...
 */
-const execsync = promisify(execFile);
 
 
-
-
-/*
-@param { string } link - URL to download its media
-
-@param { string } px - pixel in whoch the media should be downloaded in.eg. bv+ba or 22/best-recommended.
-
-@param { object } options - contain objects if user wants different oiptions such as { merge:true } to merge the media vid and aud in the highest pexels or { json:true} to get media info only or { dual:true } to get video and audio separately
-
-@return {object | buffer } - function returns object containing the json or url or Buffer to install direct to home directory... 
-*/
-
-
-
-
-async function ytvid(link=null,options ={},px="22/best"){
-    
+ async ytvid(link=null,options ={},px="bestvideo+bestaudio/best"){
     if(!link){
         throw new Error("request url was now given")
     };
@@ -64,7 +129,7 @@ async function ytvid(link=null,options ={},px="22/best"){
     const linkTest = /^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/.*$/i;
     
   if(linkTest.test(link) !== true){
-      return Err("invalid url given")
+        throw new Error("invalid youtube url given");
     };
     
     try{
@@ -72,7 +137,7 @@ async function ytvid(link=null,options ={},px="22/best"){
     /*
     set permission to the binaries to avoid unauthorized errors from the bunaries folder
 */
-var binary_755_permission_set = fs.readdirSync(path.join(_dirname,"../binaries/")); 
+var binary_755_permission_set = fs.readdirSync(path.join(_dirname,"../binaries/"),{ recursive:true }); 
 for(const bin of binary_755_permission_set){
     
  const Stats = fs.statSync(path.join(_dirname,`../binaries/${bin}`))
@@ -85,26 +150,22 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
      };
 };
  
+       /* var d = await execsync( path.join(_mdir,"/binaries","ytdlp"), ["-U"], {encoding:"utf8"});
     
-   if(!fs.existsSync(path.join(_dirname,"../binaries/ytdlp")) || !fs.existsSync(path.join(_dirname,"../binaries/ffmpeg")) || !fs.existsSync(path.join(_dirname,"../binaries/ffprobe"))){
+    console.log(d);
+    return;
+    */
+        if(!fs.existsSync(path.join(_dirname,"../binaries/ytdlp")) || !fs.existsSync(path.join(_dirname,"../binaries/ffmpeg")) || !fs.existsSync(path.join(_dirname,"../binaries/ffprobe"))){
        
-       console.trace("\n\x1b[31msome libraries have been deleted manually, while some binaries can be recreated automatically, some will need  re-installation to be able to function...\n");
+       console.trace("\n\x1b[31msome libraries have been deleted manually, while some binaries can be recreated automatically, some will need re-installation to be able to function...\n");
        try{
-
-
-      /*
-@param { object } stdout - success info if any;
-@param { object } stderr - stores error information that is not very fatal and sometimes very fatal;
-      */
-
-
-            
-       const { stderr,stout } = await execsync("/bin/sh",
+                    
+       var { stderr,stout } = await execsync("/bin/sh",
         [
-           /* run bash command safely to install ytvid lib if not available but makes sure ffmepg and ffprobe is is available to avoid re-install
+           /* run bash command safely to install ytvid lib if not available but makes sure ffmpeg and ffprobe is is available to avoid re-install clean
            */
-           "-c","curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /home/container/binaries/ytdlp && chmod a+rx /home/container/binaries/ytdlp && /home/container/binaries/ytdlp -U"
-       ]);
+           "-c",`curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ${path.join(_mdir,"/binaries","ytdlp")} && chmod a+rx ${path.join(_mdir,"/binaries","ytdlp")}`
+       ],{ shell : true });
            console.log("\n\x1b[1;38mplease wait...\n\x1b[0m");
            await new Promise(resolve=>setTimeout(resolve,3000))
        }catch(err){
@@ -113,9 +174,42 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
        };
    };
        
+        var upToDate = await ytdlp_up_todate();
+           /*console.log(upToDate);
+        return;*/
+        var dataArray = [];
+        
+        if(!upToDate){
+            console.log('updating binary...');
+            
+   var _update = await spawn(path.join(_dir,"../binaries","ytdlp"), [ "-U" ], {
+       stdio: [ "pipe","pipe","pipe" ]}
+);
+   
+   var ytdlpPromise = await new Promise((resolve,reject)=>{
+     _update.stdout.on("data",(data)=>{
+   dataArray.push(data);
+});
+       _update.on("error",(err)=>{
+   reject(err.toString());
+});
+       _update.on("close",(code)=>{
+   if(code > 0){
+    reject("ytdlp update failed...");
+       
+}else{  
+    resolve("update complete, running process...");
+}
+
+})
+   });
+           // console.log(ytdlpPromise);
+          
+}
+    
     
     /*
-    other alternative if user choose for double link. eg.one stream without audio and other with audio.
+    other alternative if user choose for double link. eg.one stream without audio and other with audio but not video in mp4.
     */
     
     
@@ -123,7 +217,10 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
         /* 
         same command line if dualsplit is toggled false but one has sound only and the other has audio only but both in very high pixels than the pre-merged
         */
-        const { stdout,stderr } = await execsync(path.join(_dirname,"../binaries/ytdlp"),[
+       var { stdout,stderr } = await execsync(path.join(_dirname,"../binaries/ytdlp"),[
+           "--extractor-args", "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
+           "--js-runtimes",
+           `node:${process.execPath}`,
       "--user-agent",
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
  "-f",
@@ -133,9 +230,9 @@ fs.chmodSync(path.join(_dirname,`../binaries/${bin}`),0o755);
   ]);     
     var data = stdout.split('\n');
         
-return { video_only_hp:`${data[0]}\n`,
+/*return*/ console.log({ video_only_hp:`${data[0]}\n`,
                 audio_only_hp : `${data[1]}\n`    
-                   };
+                   });
      
     }
     
@@ -146,14 +243,19 @@ return { video_only_hp:`${data[0]}\n`,
     
     else if(options.json === true){
     
-    const { stdout,stderr } = await execsync(path.join(_dirname,"../binaries/ytdlp"),[
+    var { stdout,stderr } = await execsync(path.join(_dirname,"../binaries/ytdlp"),[
+        "--extractor-args", "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
+        "--js-runtimes",
+        `node:${process.execPath}`,
       "--user-agent",
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
  "--skip-download",
       "--dump-json",
       `${String(link)}`
-  ]);
-       return { json:stdout };
+  ],{ 
+        maxBuffer : 1024 * 1024 * 20 
+    });
+       return { json:JSON.parse(stdout,null,3)};
         
     } 
     
@@ -163,7 +265,9 @@ return { video_only_hp:`${data[0]}\n`,
     else if(options.merge === true){
     
     //start fetch
-  const { stdout,stderr } = await execsync(path.join(_dirname,"../binaries/ytdlp"),[
+  var { stdout,stderr } = await execsync(path.join(_dirname,"../binaries/ytdlp"),[
+      "--extractor-args", "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
+      "--js-runtimes", `node:${process.execPath}`,
       "--user-agent",
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
  "-f",
@@ -171,13 +275,30 @@ return { video_only_hp:`${data[0]}\n`,
       "-g",
       `${String(link)}`
   ]);
-    return { merged_video:stdout };  
-    } 
+    return { merged_split :stdout };
+    }
     
    else{
        
-   //the highest pixel of video and audio manually combined using ffmpeg
-  const { stdout,stderr } = await execsync(path.join(_dirname,"../binaries/ytdlp"),[
+   var vid_title_path = "/%(title)s.%(ext)s";
+       
+       var stdout2 = await execsync(
+          path.join(_dirname,"../binaries/ytdlp"), [
+    '--get-title',
+              "--js-runtimes", `node:${process.execPath}`,
+              "--extractor-args", "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
+    '--user-agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    String(link)
+] ,{ 
+    stdio : ["pipe","pipe","pipe"]
+})
+       vid_title_path = stdout2?.stdout?.trim()?.replaceAll(" ","_")?.replaceAll("/","")+".mp4";
+       var final_media_path = os.homedir()+"/"+vid_title_path;
+//console.log(vid_title_path);
+       //return;
+          
+  var { stdout,stderr } = await execsync(path.join(_dirname,"../binaries/ytdlp"),[
+       "--extractor-args", "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
       "--user-agent",
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
  "-f",
@@ -186,90 +307,143 @@ return { video_only_hp:`${data[0]}\n`,
       "mp4",
       "--js-runtimes",
       `node:${process.execPath}`,
-      "-o", path.join(os.homedir(),"/%(resolution)s.%(ext)s"),
-      `${String(link)}`
+      "-o", path.join(os.homedir(),vid_title_path.replaceAll(" ","")),
+      `${String(link)}`,
+      "--newline",
+  "--no-playlist"
   ]);
-     return { data : `saved merged format ${JSON.stringify({link})} to home directory successfully...`} 
+    /* return*/ 
        
 };
+         if(final_media_path){
+             var crypto_identifier = crypto.randomBytes(8).toString("hex").toUpperCase();
+             
+             var new_final_path = final_media_path?.replace(".mp4","")+"_"+crypto_identifier?.replaceAll('"',"")+".mp4";
+             var dataArray2 = [];
+    var ffmpeg_spawn = await spawn(path.join(_dir,"../binaries","ffmpeg"),
+                                   [
+        "-i",
+        final_media_path,
+        "-c:v",
+        "libx264",
+        "-preset",
+        "veryfast",
+        "-movflags",
+        "+faststart",
+        "-filter:a", 
+        "volume=1.5",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        new_final_path
+    ],
+                                   { stdio: ["pipe","pipe","pipe"]
+}
+                                  )
+   
+
+}
+        var promiseData = await new Promise((resolve,reject)=>{
+            
+    ffmpeg_spawn.stderr.on("data",(data)=>{   
+        if(options.console == true ){
+            
+console.log(`\x1b[32m${data.toString()}\x1b[0m`);
+        //reject(data.toString());        
+            }
+});
+        
+            ffmpeg_spawn.on("error",(e)=>{
+      reject(e.toString());
+            });
+            ffmpeg_spawn.on("close",(code)=>{
+     if(code > 0){
+         
+     resolve({ data : `saved merged format ${JSON.stringify({link})} to ${final_media_path} directory but ffmpeg worker failed to execute global formatting => { recommended_player_in_this_situation: VLC player }`});
+
+}else{
+    
+    if(fs.existsSync(final_media_path)){
+    fs.unlinkSync(final_media_path,{ recursive:true })
+    }
+  var finished_response = { data : `saved merged format ${JSON.stringify({link})} to ${final_media_path} directory...`};
+    /*
+    resolve(Buffer.concat(dataArray2).toString("utf8"));
+ */
+    
+}
+  })
+});
+        //console.log(promiseData);
+        
     }catch(err){
     Err(`an error occured executing command ytvid, ${String(err) || JSON.stringify(err)}. If error persist, please report at https://github.com/cybercyphers/decifer/issues`)
 }
    };   
-
-
-//test
-//ytvid("https://youtube.com/shorts/Boep7EPKyas?si=ObS_GUDjtZhOser-");
-
-//ytvid("https://vt.tiktok.com/ZS4Kc2jHg/",{dual:true});
-
-
-
-
-
-
-
-
-/*
-@param {any} text - string | object | number and type any to convert to computer binary (1s and 0s) 
-*/
-
-const toBinary = (text)=>{
-     if(!text){
-     return Err("cannot comvert undefined to binary")
-     };
-
-     var complete_binary = [...Buffer.from(text)].map(byte=>byte.toString(2).padStart(8,"0")).join("")               
-
-     return { binary:complete_binary };
     
-};
-
-
-
-/*
-@param { string | number } binary - only binary. eg. (1s or 0s) accepted to convert to human-readable;
-@return { string } - type string is return mmmm; 
-*/
-
-
-
-function toUtf8(binary){
-  if(!binary){
-    return Err("expected type string | number but received type undefined")
-  };
-
-  if(typeof binary !== 'string'){
-    return Err("type octal literal is not accepted, { recommended:'string | number' }")
-  }
-  
-  let bitArray =[]
-  let new_readable_array = [];
-    for(let i=0; i < binary.length; i+=8){
-      var binarySlice = binary.slice(i,i+8)
-    bitArray.push(binarySlice)
-    }
-
-  for(var bit of bitArray){
-    var parsedBit = parseInt(bit,2)
-     var readable_string = String.fromCharCode(parsedBit)
-  //console.log(readable_string)
-     var final = new_readable_array.push(readable_string);
-  }
- var final_utf8 =  new_readable_array.join("")
-
-  return { utf8 : final_utf8 }
-  
-};
-
-
-
-
-
-export {
-    sleep,
-UUID,
-  ytvid,
-     toBinary,
-     toUtf8
+    
+    
+    
+ async toSticker(buffer){
+      if(!buffer){
+         throw new Error(`expected an image or video buffer by received ${typeof buffer}`)
 }
+   var mediaTypeBuffer = mediaType(buffer);
+        
+
+//ytvid("https://vt.tiktok.com/ZS4Kc2jHg/");
+  };
+    
+/*
+ @param {string} - the path to the media file
+*/
+    
+    getMediaType(media_path){
+try{
+    //console.log(media_path);
+    
+   if(!media_path){
+   throw new Error(`media path is ${media_path}, perhaps you forgot to include the path to the media file`);
+}
+    media_type(media_path);
+    
+}catch(e){
+  throw new Error(e);
+}
+
+ }
+    
+    //to general media playable
+    
+  async global_media_format(media_path){
+      try{
+         //throw new Error("trial error");
+          
+    if(!media_path){
+ return Err(`expected a file or dir path but received ${typeof media_path} `)
+    };
+     
+      }catch(e){ 
+     return Err(e.stack);
+}
+}
+    
+    
+    
+    
+}
+
+/*var k = fs.readFileSync(path.join(_dirname,"." ,"trail.mp4"));*/
+
+/*var e = new cypher();
+console.log(e)*/
+
+
+
+
+export  {
+    matrix as default,
+    media_type
+}
+
