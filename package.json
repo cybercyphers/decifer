@@ -6,10 +6,7 @@
   "main": "src/index.js",
 
   "files": [
-    "dist",
-    "src/",
-    "binaries/",
-    "functions/"
+    "binaries/"
   ],
   "scripts": {
     "build": "tsup src/index.js --format cjs,esm --dts --clean --shims",
