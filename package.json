@@ -6,7 +6,7 @@
   "main": "src/index.js",
 
   "files": [
-    "/",
+    "dirPath.js",
     "functions/",
     "tests/",
     "binaries/"
