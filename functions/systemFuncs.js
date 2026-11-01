@@ -357,7 +357,7 @@ class matrix{
             "-preset","veryfast",
             "-movflags","+faststart",
             "-c:a", "copy",
-            "profile:v", "baseline",
+            "-profile:v", "baseline",
             "-tune","fastdecode",
             path.join(new_final_path)
           ],
