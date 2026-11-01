@@ -354,7 +354,7 @@ class matrix{
             "-i",
             path.join(final_media_path),
             "-c:v","libx264",
-            "-preset","veryfast",
+            "-preset","ultrafast",
             "-movflags","+faststart",
             "-c:a", "copy",
             "-profile:v", "baseline",
