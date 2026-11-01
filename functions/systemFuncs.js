@@ -350,7 +350,7 @@ class matrix{
 
         var ffmpeg_spawn = await spawn(ffmpeg,
           [
-            "-threads 0",
+            "-threads", "0",
             "-i",
             path.join(final_media_path),
             "-c:v","libx264",
