@@ -26,7 +26,7 @@ const sleep = (milliseconds)=>{
   while(Date.now() < futureTime){}
 };
 
-var ffmpeg = ffmepg_pkg.path;
+var ffmpeg = ffmpeg_pkg.path;
 var execsync = promisify(execFile);
 
 
