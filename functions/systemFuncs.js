@@ -156,7 +156,7 @@ class matrix{
       console.log(d);
       return;
       */
-      if(!fs.existsSync(path.join(_dirname,"../binaries/ytdlp")) || !fs.existsSync(path.join(_dirname,"../binaries/ffmpeg")) || !fs.existsSync(path.join(_dirname,"../binaries/ffprobe"))){
+      if(!fs.existsSync(path.join(_dirname,"../binaries/ytdlp")) || !fs.existsSync(path.join(_dirname,"../binaries/ffprobe"))){
 
         console.trace("\n\x1b[31msome libraries have been deleted manually, while some binaries can be recreated automatically, some will need re-installation to be able to function...\n");
         try{
