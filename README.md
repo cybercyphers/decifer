@@ -6,25 +6,24 @@
 
     ---
 
-    ## 🛠️ Installation
+ ## 🛠️ Installation
+  Install the package directly into your project via the npm:
 
-    Install the package directly into your project via the npm:
+```bash
+npm install decifer
+```
 
-    ```bash
-    npm install decifer
-    ```
+### some kits available are:
+ >toBinary - convert normal text to 1s & 0s or computer bytes.
 
-    ### some kits available are:
-    >toBinary - convert normal text to 1s & 0s or computer bytes.
+ >toUtf8 - convert computer bytes 1s & 0s normal text.
 
-    >toUtf8 - convert computer bytes 1s & 0s normal text.
-
-    >ytvid - download youtube video via youtube valid url.
+ >ytvid - download youtube video via youtube valid url.
 
 
-    CommonJs:
-    ```javascript
-    // CommonJS
+CommonJs:
+```javascript
+  // CommonJS
     var matrix = require(‘decifer’);
     var Matrix = new matrix();
 
@@ -35,12 +34,12 @@
     var humanReadable = Matrix.toUtf8('10101011000');
     console.log(humanReadable)  // readable string
 
-    ```
+ ```
 
 
-    ES module example:
-    ```typescript
-    // TypeScript or Javascript
+ES module example:
+```typescript
+    // TypeScript
 
     import matrix from 'decifer';
 
@@ -52,18 +51,45 @@
 
     var humanReadable:string = Matrix.toUtf8('10101011000');
     console.log(humanReadable)  // readable string
-    ```
+```
 
 
-    ## 🎛️ Core Features
+# Youtube_end_point
 
-    *   **Zero Dependencies;**
-    *   **Performance First:** Built for high-throughput string and binary node manipulation.
-    *   **Matrix Aesthetic:** Clean and predictable...
+#### ES Module as default:
+```javascript
+  // ESM
+import matrix from ‘decifer’;
+var Matrix = new matrix();
+ //define the url endpoint => optional
+var yt_url = `https://youtube.com/..`; // type string
 
-    ## 📄 License
+  async function fetch_media_yt(){
+//handle the error your way, an error is throw if reconstruction fails or fetch fails.
 
-    This project is licensed under the **MIT License**. You are completely free to modify, distribute, and integrate this software into private or commercial environments. See the `LICENSE` file for details.
+    try{
+
+    }catch(yt_err){
+        console.error(`yt_fetch failed, trace => ${e.stack || e.message || e}`);
+    }
+}
+
+      
+ ```
+
+
+
+
+
+## Features
+
+*   **Zero Dependencies;**
+*   **Performance First:** Built for high-throughput string and binary node manipulation.
+
+     📄 License
+
+  This project is licensed under the **MIT License**. You are completely free to modify, distribute, and integrate this software into private or commercial environments. See the `LICENSE` file for details.
 
     ---
-    *Maintained with 💻 by Cyber Cyphers.*
+    
+***🖤 cyber cyphers***
