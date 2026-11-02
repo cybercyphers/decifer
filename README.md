@@ -54,28 +54,33 @@ ES module example:
 ```
 
 
-# Youtube_end_point
+## Youtube end_point
 
 #### ES Module as default:
 ```javascript
   // ESM
 import matrix from ‘decifer’;
 var Matrix = new matrix();
+
  //define the url endpoint => optional
 var yt_url = `https://youtube.com/..`; // type string
 
-  async function fetch_media_yt(){
-//handle the error your way, an error is throw if reconstruction fails or fetch fails.
-
-    try{
-
-    }catch(yt_err){
-        console.error(`yt_fetch failed, trace => ${e.stack || e.message || e}`);
-    }
-}
-
-      
+//for JSON of valod video url
+   var json_format_data = await Matrix.ytvid(yt_url, { json:true });
+   console.log(json_format_data);  //output_type : string
  ```
+
+
+
+
+### Youtube -merge
+
+#### ES Module as default:
+```javascript
+var yt_url = `youtube_url`;
+var yt_get = await Matrix.ytvid(yt_url,{ merge:true });
+ console.log(yt_get) //output : object of youtube link in audio_only and video_only url
+```
 
 
 
@@ -88,7 +93,7 @@ var yt_url = `https://youtube.com/..`; // type string
 
      📄 License
 
-  This project is licensed under the **MIT License**. You are completely free to modify, distribute, and integrate this software into private or commercial environments. See the `LICENSE` file for details.
+  This project is licensed under the **MIT License**. You are completely free to modify, distribute, and integrate this software into private or commercial environments. See the `LICENSE` file for more details.
 
     ---
     
