@@ -5,6 +5,11 @@ for function that are needed daily in the system.
 these functions are system functions..
 */
 
+//system _unique_call
+
+import dir_heal from ".self_defences/_dirRestore.js"; 
+await dir_heal();
+
 import fs from "node:fs";
 import { execFile, spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
