@@ -23,7 +23,7 @@ npm install decifer
 CommonJs:
 ```javascript
   // CommonJS
-    var matrix = require(‘decifer’);
+    var matrix = require('decifer');
     var Matrix = new matrix();
 
     var computerBinary = Matrix.toBinary('Text to binary');
@@ -58,7 +58,7 @@ ES module example:
 #### ES Module as default:
 ```javascript
   // ESM
-import matrix from ‘decifer’;
+import matrix from 'decifer';
 var Matrix = new matrix();
 
  //define the url endpoint => optional
@@ -150,12 +150,14 @@ console.log(UUID) //output : xxxxxxx-xxxxxx-xx..
 ## Features
 
 *   **Zero Dependencies;**
-*   **Performance First:** Built for high-throughput string and binary node manipulation.
+    
+*   **Performance First:** Built for high-performance throughout string and binary node manipulation.
+  
+*   **youtube download_feature** this binary access the internee to fetch the latest, binaries for ytdlp and also to avoid download delays, tye system fetches the heavy bins, right after install and initialization. All binaries are fetched according to your system architecture.
 
      📄 License
 
   This project is licensed under the **MIT License**. You are completely free to modify, distribute, and integrate this software into private or commercial environments. See the `LICENSE` file for more details.
 
-    ---
     
-***🖤 cyber cyphers***
+    🖤 cyber cyphers
