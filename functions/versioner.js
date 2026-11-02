@@ -1,76 +1,68 @@
 import fs from "node:fs";
-import { execFile,spawn } from "node:child_process";
+import { execFile, spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
-import path,{ dirname } from "node:path";
+import path, { dirname } from "node:path";
 var __dirname = dirname(fileURLToPath(import.meta.url));
+import {
+    pre_check_update,
+    versioner_ytdlp,
+} from "./ytdlp_versioner/yt_update_system.js";
+import { sleep } from "./ESMFunc.js";
+import automatically_detect_setup from "./ffmpeg_versioner/ffmpeg_fetch_arch_stable.js";
 
-export async function pre_check_update(){
-    var dataArray = [];
-    
-var update_spawn = await spawn(
-       path.join(__dirname,"../binaries/ytdlp"),
-   ["--version"],
-                        {
-         shell:true,
-                            stdio:[ "pipe","pipe","pipe" ]
-     }
-                       );
-    
-  //var update_spawn = "";
-    
-  var spawn_promise = await new Promise((resolve,reject)=>{
-        
-    update_spawn.stdout.on("data",(data)=>{
-    dataArray.push(data);
-} );
-                      
-    update_spawn.on("error",(e)=>{
-   reject(e.toString());
-});
-      
-    update_spawn.on("close",(code)=>{
-      if(code > 0){
-        return null;
-}else{
-     resolve(Buffer.concat(dataArray).toString());
-};
-   });
-        
- })
-     
-return { system_version : String(spawn_promise).trim() };
-    
-};
+import { yt_sys_fetch } from "./ytdlp_versioner/ytdlp_system_fetch.js";
 
+var ytdlp = path.join(__dirname, "../binaries", "ytdlp");
+var ffmpeg = path.join(__dirname, "../binaries", "ffmpeg");
+var ffprobe = path.join(__dirname, "../binaries", "ffprobe");
 
+export async function ytdlp_up_todate() {
+    try {
+        var ytdlp_web_version = await versioner_ytdlp();
+        var ytldlp_inner_version = await pre_check_update();
 
-
-
-export default async function versioner(){
-   var version_fetch = await fetch("https://raw.githubusercontent.com/yt-dlp/yt-dlp/refs/heads/master/yt_dlp/version.py",{ method:"GET", headers:{ "Content-Type":"application/text" }});
-    if(!version_fetch.ok){
-    return { version : null };
-}
-    var version_text = await version_fetch.text();
-    if(!version_text){
-   return { version: null };
-}
-    var regex_to_match = /\'(\d+\.\d+\.\d+)'$/m;
-    var version_matched = version_text.match(regex_to_match)[0].replaceAll(`'`,"");
-  
-    return { web_version : String(version_matched).trim() || null }
+        var new_web_version = ytdlp_web_version?.web_version;
+        var old_system_version = ytldlp_inner_version.system_version;
+        return old_system_version === new_web_version;
+    } catch (e) {
+        return Err(e?.stack || e?.message || e);
+    }
 }
 
+export default async function check_up_secure_system() {
+    try {
+        if (!fs.existsSync(ytdlp)) {
+            var yt_set = await yt_sys_fetch();
+            //console.log(yt_set);
+        }
 
+        if (!fs.existsSync(ffmpeg) || !fs.existsSync(ffprobe)) {
+            var ffmpeg_set = await automatically_detect_setup();
+            console.log(ffmpeg_set);
 
+            if (
+                ffmpeg_set.success &&
+                typeof ffmpeg_set?.spam_tar === "string"
+            ) {
+                await slep(3000);
 
-export async function ytdlp_up_todate(){
-   var ytdlp_web_version = await versioner();
-    var ytldlp_inner_version = await pre_check_update()
-    
-    var new_web_version = ytdlp_web_version?.web_version;
-    var old_system_version = ytldlp_inner_version.system_version;
-    return old_system_version === new_web_version
-   
+                fs.unlinkSync(ffmpeg_set.spam_tar),
+                    {
+                        recursive: true,
+                    };
+            } else {
+                throw new Error(
+                    Err({
+                        success: false,
+                        reason: "ffmpeg fetch and automatic set up failed due to an error, level => anonymous",
+                    }),
+                );
+            }
+        } else {
+            return null;
+        }
+    } catch (e) {
+        return Error(e?.stack || e?.message || e);
+    }
 }
