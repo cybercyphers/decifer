@@ -5,8 +5,10 @@
 
 //Ready to brainstorm....
 
+//yep _unique_import call required for safety brother
 
-
+import dir_heal from "../functions/self_defences/_dirRestore.js"; 
+await dir_heal();
 
 import fs from "node:fs";
 import path,{ dirname } from "node:path";
