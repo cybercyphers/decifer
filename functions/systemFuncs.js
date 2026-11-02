@@ -7,7 +7,7 @@ these functions are system functions..
 
 //system _unique_call
 
-import dir_heal from ".self_defences/_dirRestore.js"; 
+import dir_heal from "./self_defences/_dirRestore.js"; 
 await dir_heal();
 
 import fs from "node:fs";
