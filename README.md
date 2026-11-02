@@ -4,7 +4,6 @@
 
 [![Socket Badge](https://badge.socket.dev/npm/package/decifer/0.0.1)](https://badge.socket.dev/npm/package/decifer/0.0.1)
 
-    ---
 
  ## 🛠️ Installation
   Install the package directly into your project via the npm:
@@ -72,15 +71,45 @@ var yt_url = `https://youtube.com/..`; // type string
 
 
 
+### Youtube default_fallback
 
-### Youtube -merge
+*ES Module as default, fallback:*
 
-#### ES Module as default:
+>if no format option is given, it defaults to disk install. The media gets installed onto the server in the home_directory, and if { asBuffer:true } option is called, media data is rather stored as buffer in the memory than on disk.
+
+```javascript
+var yt_url = `youtube_url`;
+var yt_get = await Matrix.ytvid(yt_url);
+ console.log(yt_get) //output : media_saved path default to the home_directory, asBuffer option overrides to memory than disk. i.e
+
+var yt_get = await Matrix.ytvid(yt_url,{ asBuffer:true });
+ console.log(yt_get)  //output: Buffer<..>
+```
+
+
+
+
+### Youtube-merge
+
+*ES Module as default:*
 ```javascript
 var yt_url = `youtube_url`;
 var yt_get = await Matrix.ytvid(yt_url,{ merge:true });
+ console.log(yt_get) //output : string of bot audio and mp4 mixed;
+```
+
+
+### Youtube-dual
+
+*ES Module as default:*
+```javascript
+var yt_url = `youtube_url`;
+var yt_get = await Matrix.ytvid(yt_url,{ dual:true });
  console.log(yt_get) //output : object of youtube link in audio_only and video_only url
 ```
+
+
+
 
 
 
