@@ -83,7 +83,7 @@ var yt_get = await Matrix.ytvid(yt_url);
  console.log(yt_get) //output : media_saved path default to the home_directory, asBuffer option overrides to memory than disk. i.e
 
 var yt_get = await Matrix.ytvid(yt_url,{ asBuffer:true });
- console.log(yt_get)  //output: Buffer<..>
+ console.log(yt_get instanceof Buffer)  //output: true
 ```
 
 
@@ -112,6 +112,38 @@ var yt_get = await Matrix.ytvid(yt_url,{ dual:true });
 
 
 
+# Media_Type endpoint
+
+*ES Module as default:*
+```javascript
+ // media_type class func is synchronous so need for an async/await block if individual.
+
+import matrix from 'decifer';
+var Matrix = new matrix();
+/*
+this feature only support media such as mp4 or png or quicktime or any type that you do not have any idea what it bytes holds
+*/
+var path_to_media_only_file = '/path/to/media/wrong_format.png';
+
+// will throw an error if not param is given i.e the path to the media;
+
+var mediaType = Matrix.media_type(path_to_media_only_file);
+console.log(mediaType) //output: video/quicktime. we take the media_file to be the wrong or unknown extension, this feature figure it out synchronously;
+```
+
+
+
+
+
+### randomUUID 
+
+*ES Module as default:*
+```javascript
+import matrix from 'decifer';
+var Matrix = new matrix;
+var UUID = Matrix.randomUUID();
+console.log(UUID) //output : xxxxxxx-xxxxxx-xx..
+```
 
 
 
