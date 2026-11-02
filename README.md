@@ -1,61 +1,69 @@
-# decifer [BETA]
+# decifer
 
-> Sleek, lightweight, data transformation and string obfuscation utility for terminal nodes.
-> This package provide developer utilities for development.
-> Built by **Cyber Cyphers**.
-
+>Decifer is a sleek, lightweight package that provide, developers with mostly rare tools and long extract tools such as youtube_video downloads and media_type_identifiers, etc.
 
 [![Socket Badge](https://badge.socket.dev/npm/package/decifer/0.0.1)](https://badge.socket.dev/npm/package/decifer/0.0.1)
 
----
+    ---
 
-## 🛠️ Installation
+    ## 🛠️ Installation
 
-Install the package directly into your project via the npm registry:
+    Install the package directly into your project via the npm:
 
-```bash
-npm install decifer
-```
+    ```bash
+    npm install decifer
+    ```
 
-## 🚀 Quick Start
+    ### some kits available are:
+    >toBinary - convert normal text to 1s & 0s or computer bytes.
 
-### some kits available are:
->toBinary
+    >toUtf8 - convert computer bytes 1s & 0s normal text.
 
->toUtf8
-
-
-CommonJs:
-```javascript
-// CommonJS
-const decifer = require(‘decifer’);
-```
+    >ytvid - download youtube video via youtube valid url.
 
 
-ES module example:
-```typescript
-// TypeScript or Javascript
+    CommonJs:
+    ```javascript
+    // CommonJS
+    var matrix = require(‘decifer’);
+    var Matrix = new matrix();
 
-import { toBinary, toUtf8 } from 'decifer';
+    var computerBinary = Matrix.toBinary('Text to binary');
+    console.log(computerBinary)
+    console.log(typeof computerBinary) //string
 
- var computerBinary:string = toBinary('Text to binary');
-  console.log(computerBinary)
-  console.log(typeof computerBinary) //string
+    var humanReadable = Matrix.toUtf8('10101011000');
+    console.log(humanReadable)  // readable string
 
-var humanReadable:string = toUtf8('10101011000');
-  console.log(humanReadable)  // readable string 
-```
+    ```
 
 
-## 🎛️ Core Features
+    ES module example:
+    ```typescript
+    // TypeScript or Javascript
 
-*   **Zero Dependencies;** 
-*   **Performance First:** Built for high-throughput string and binary node manipulation.
-*   **Matrix Aesthetic:** Clean and predictable...
+    import matrix from 'decifer';
 
-## 📄 License
+    var Matrix = new matrix();
 
-This project is licensed under the **MIT License**. You are completely free to modify, distribute, and integrate this software into private or commercial environments. See the `LICENSE` file for details.
+    var computerBinary:string = Matrix.toBinary('Text to binary');
+    console.log(computerBinary)
+    console.log(typeof computerBinary) //string
 
----
-*Maintained with 💻 by Cyber Cyphers.*
+    var humanReadable:string = Matrix.toUtf8('10101011000');
+    console.log(humanReadable)  // readable string
+    ```
+
+
+    ## 🎛️ Core Features
+
+    *   **Zero Dependencies;**
+    *   **Performance First:** Built for high-throughput string and binary node manipulation.
+    *   **Matrix Aesthetic:** Clean and predictable...
+
+    ## 📄 License
+
+    This project is licensed under the **MIT License**. You are completely free to modify, distribute, and integrate this software into private or commercial environments. See the `LICENSE` file for details.
+
+    ---
+    *Maintained with 💻 by Cyber Cyphers.*
