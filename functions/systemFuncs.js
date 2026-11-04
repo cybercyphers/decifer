@@ -45,9 +45,9 @@ class matrix {
     }
 
     constructor() {
-        this.ffmpeg.path = path.join(__dirname,"../binaries","ffmpeg");
-        this.ffprobe.path = path.join(__dirname,"../binaries","ffprobe");
-        this.ytdlp.path = path.join(__dirname,"../binaries","ytdlp");
+        this.ffmpeg.path = path.join(_dir,"../binaries","ffmpeg");
+        this.ffprobe.path = path.join(_dir,"../binaries","ffprobe");
+        this.ytdlp.path = path.join(_dir,"../binaries","ytdlp");
     }
 
     //await versioner();
