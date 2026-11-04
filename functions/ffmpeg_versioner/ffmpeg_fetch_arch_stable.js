@@ -73,7 +73,7 @@ async function x86_64_agreed_setup() {
             }
 
             
-            var promiseData = await new ((resolve,reject)=>{
+            var promiseData = await new Promise((resolve,reject)=>{
 
                 extract_spawn.on("error",(e)=>{
                     reject(Err(e));
@@ -156,7 +156,7 @@ async function x86_32_agreed_setup() {
             }
 
             
-            var promiseData = await new ((resolve,reject)=>{
+            var promiseData = await new Promise((resolve,reject)=>{
 
                 extract_spawn.on("error",(e)=>{
                     reject(Err(e));
@@ -243,7 +243,7 @@ async function arm64_64_agreed_setup() {
                 );
             }
 
-            var promiseData = await new ((resolve,reject)=>{
+            var promiseData = await new Promise((resolve,reject)=>{
 
                 extract_spawn.on("error",(e)=>{
                     reject(Err(e));
