@@ -5,6 +5,8 @@
 //Ready to brainstorm....
 
 //unique system
+import dir_heal from "./functions/self_defences/_dirRestore.js";
+import versioner from "./functions/versioner.js";
 
 import fs from "node:fs";
 import path, { dirname } from "node:path";
