@@ -23,21 +23,6 @@ npm install decifer
  >ytvid - download youtube video via youtube valid url.
 
 
-CommonJs:
-```javascript
-  // CommonJS
-    var matrix = require('decifer');
-    var Matrix = new matrix();
-
-    var computerBinary = Matrix.toBinary('Text to binary');
-    console.log(computerBinary)
-    console.log(typeof computerBinary) //string
-
-    var humanReadable = Matrix.toUtf8('10101011000');
-    console.log(humanReadable)  // readable string
-
- ```
-
 
 ES module example:
 ```typescript
