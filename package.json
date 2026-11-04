@@ -1,6 +1,6 @@
 {
   "name": "decifer",
-  "version": "0.2.1",
+  "version": "1.2.1",
   "description": "You very own toolkit ready to use for development.",
   "type": "module",
   "main": "src/index.js",
