@@ -16,7 +16,7 @@ import { _mdir } from "../dirPath.js";
 //check if entries are already loaded on every restart
 var entries_loaded = false;
 
-async load_entries() {
+var load_entries = () => {
   try{  
             await dir_heal();
     var clean_up_after = await versioner();
@@ -38,8 +38,7 @@ async load_entries() {
     };
 
 var matrix = {
-  loadEntries : load_entries()
-
+  loadEntries : load_entries
 };
 
 export { matrix as default };
