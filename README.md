@@ -23,8 +23,8 @@ npm install github:cybercyphers:decifer
 ## Initialization
  To be able to use this package, you need to load decifer’s entries so you get the available routes as below. If the entries are not loaded, decifer will return an object other than the working functions in other cases, decifer will fail to initialize. This step should be your first step. 
  ```javascript
-import decifer from `decifer`;
- var matrix = await decifer.loadEntries();
+import Decifer from `decifer`;
+ var matrix = await Decifer.loadEntries();
  console.log(matrix); //output: [class matrix]..
  var Matrix = new matrix(); // matrix{ ffmp.. }
 ```
