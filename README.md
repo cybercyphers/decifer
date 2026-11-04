@@ -54,6 +54,8 @@ ES module example:
 
 
 ## Youtube end_point
+> [!NOTE]
+> Enabling `{ rapid:true }` in class.globalize() will result in a high file size but speed up the work process.
 
 #### ES Module as default:
 ```javascript
