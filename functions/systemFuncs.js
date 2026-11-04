@@ -26,6 +26,8 @@ var _dir = dirname(fileURLToPath(import.meta.url));
 var execsync = promisify(execFile);
 var ffmpeg = path.join(_dirname, "../binaries/ffmpeg");
 
+//main process logic begins...
+
 class matrix {
     static async versioner_call() {
         var clean_up_after = await versioner();
@@ -42,7 +44,11 @@ class matrix {
         this.versioner_call();
     }
 
-    constructor() {}
+    constructor() {
+        this.ffmpeg.path = path.join(__dirname,"../binaries","ffmpeg");
+        this.ffprobe.path = path.join(__dirname,"../binaries","ffprobe");
+        this.ytdlp.path = path.join(__dirname,"../binaries","ytdlp");
+    }
 
     //await versioner();
     //random uuid fingerprinting
