@@ -1,5 +1,8 @@
 # DECIFER
 
+>[!NOTE]
+ **This package can only be user with ES Module, for typescript, install @type/decifer on nodeJs**
+
 >`Decifer` is a sleek, lightweight package that provide, developers with mostly rare tools and long extract tools such as youtube_video downloads and media_type_identifiers, etc.
 
 [![Socket Badge](https://badge.socket.dev/npm/package/decifer/0.0.1)](https://badge.socket.dev/npm/package/decifer/0.0.1)
