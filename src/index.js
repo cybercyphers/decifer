@@ -2,23 +2,20 @@
 
 //@ts-check
 
-
 //Ready to brainstorm....
 
-//yep _unique_import call required for safety brother
+//unique system
 
-import dir_heal from "../functions/self_defences/_dirRestore.js"; 
+import dir_heal from "../functions/self_defences/_dirRestore.js";
 await dir_heal();
 
 import fs from "node:fs";
-import path,{ dirname } from "node:path";
+import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import matrix from "../functions/systemFuncs.js";
-
- import { Err } from "../functions/Error.js";
+import { Err } from "../functions/Error.js";
 import { _dirname } from "../functions/ESMFunc.js";
 import { _mdir } from "../dirPath.js";
-
 
 //console.log(JSON.stringify(process.env));
 
@@ -28,9 +25,6 @@ var PORT = process.env.SERVER_PORT;
 
 //console.log(cypher)
 
-
-export  {
-    matrix as default
-};
+export { matrix as default };
 
 //EOF
