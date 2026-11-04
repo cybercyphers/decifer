@@ -21,7 +21,7 @@ npm install github:cybercyphers:decifer
 ```
 
 ## Initialization
- To be able to use this package, you need to load make the bot load its entries so you get the available routes as below..
+ To be able to use this package, you need to  load the package’s so you get the available routes as below..
  ```javascript
 import matrix from `decifer`;
  var matrix = await matrix.loadEntries();
