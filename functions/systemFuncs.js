@@ -356,7 +356,7 @@ class matrix {
                                     fs.readFileSync(new_final_path);
                                 fs.unlinkSync(new_final_path);
                                 resolve(bufferData);
-                                await sleep(10);
+                              
                                 if (fs.existsSync(final_media_path)) {
                                     fs.unlinkSync(final_media_path, {
                                         recursive: true,
