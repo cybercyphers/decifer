@@ -146,6 +146,17 @@ console.log(UUID) //output : xxxxxxx-xxxxxx-xx..
 ```
 
 
+# video_globalizing:
+> some media contains formats or bytes that modern devices or some devices do not support, and this function is the just in to sort that out, it converts the video { mp4, avi and many other more video_formats } to a global video format. Each atom or byte of that video is re_encoded with ffmpeg one at a time but with high preset.
+> 
+*ES Module as default:*
+```javascript
+import matrix from 'decifer';
+var Matrix = new matrix;
+var UUID = Matrix.randomUUID();
+console.log(UUID) //output : xxxxxxx-xxxxxx-xx..
+```
+
 
 ## Features
 
