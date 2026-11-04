@@ -6,7 +6,6 @@ these functions are system functions..
 */
 
 import dir_heal from "./self_defences/_dirRestore.js";
-await dir_heal();
 import fs from "node:fs";
 import { execFile, spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -21,7 +20,7 @@ import { _mdir } from "../dirPath.js";
 import { ytdlp_up_todate } from "./versioner.js";
 import versioner from "./versioner.js";
 var _dir = dirname(fileURLToPath(import.meta.url));
-await versioner();
+
 //time delay for important information or functions that need some time instead of async-await..
 
 var execsync = promisify(execFile);
@@ -30,6 +29,7 @@ var ffmpeg = path.join(_dirname, "../binaries/ffmpeg");
 class matrix {
     static async versioner_call() {
         var clean_up_after = await versioner();
+           await dir_heal()
         if (clean_up_after && fs.existsSync(clean_up_after)) {
             fs.unlinkSync(clean_up_after),
                 {
