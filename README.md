@@ -17,7 +17,7 @@ npm install decifer
 or 
 
 ```bash
-   npm install github:cybercyphers:decifer
+npm install github:cybercyphers:decifer
 ```
 
 ## Initialization
