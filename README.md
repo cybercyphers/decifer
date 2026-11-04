@@ -140,21 +140,32 @@ console.log(mediaType) //output: video/quicktime. we take the media_file to be t
 *ES Module as default:*
 ```javascript
 import matrix from 'decifer';
-var Matrix = new matrix;
+var Matrix = new matrix();
 var UUID = Matrix.randomUUID();
 console.log(UUID) //output : xxxxxxx-xxxxxx-xx..
 ```
 
 
 # video_globalizing:
-> some media contains formats or bytes that modern devices or some devices do not support, and this function is the just in to sort that out, it converts the video { mp4, avi and many other more video_formats } to a global video format. Each atom or byte of that video is re_encoded with ffmpeg one at a time but with high preset.
-> 
+> some media contains formats or bytes that modern devices or some devices do not support, and this function is just in to sort that out, it converts the video { mp4, avi and many other more video_formats } to a global video format. Each atom or byte of that video is re_encoded with ffmpeg one at a time but with high preset.
+
+> options - { asBuffer:true } => to receive data in buffer instead of direct disk.
+
+> [!WARNING]
+> Enabling **{ rapid:true }** in class.globalize() will result in a high file size but speed up the work process.
+
+> [!IMPORTANT]
+> If the media is being processed with a path than buffer, its final outpu will always be compiled to an *MP4* with a .mp4 extention
+
 *ES Module as default:*
 ```javascript
 import matrix from 'decifer';
-var Matrix = new matrix;
-var UUID = Matrix.randomUUID();
-console.log(UUID) //output : xxxxxxx-xxxxxx-xx..
+var Matrix = new matrix();
+var vid_data = `pathToVideo_or_bufferOfVideo`;
+
+var global_vid = Matrix.globalize(vid_data);
+console.log(globa_vid) //output: raw compiled_media_buffer || path to compiled video.mp4
+
 ```
 
 
