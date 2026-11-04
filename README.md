@@ -8,11 +8,21 @@
 [![Socket Badge](https://badge.socket.dev/npm/package/decifer/0.0.1)](https://badge.socket.dev/npm/package/decifer/0.0.1)
 
 
- ## 🛠️ Installation
+ ## Installation
   Install the package directly into your project via the npm:
 
 ```bash
 npm install decifer
+```
+
+## Initialization
+ To be able to use this package, you need to load the entries with 
+
+ ```javascript
+import matrix from `decifer`;
+ var matrix = await matrix.loadEntries();
+ console.log(matrix); //output: [class matrix]..
+ var Matrix = new matrix(); // matrix{ ffmp.. }
 ```
 
 ### some kits available are:
@@ -28,11 +38,7 @@ ES module example:
 ```typescript
     // TypeScript
 
-    import matrix from 'decifer';
-
-    var Matrix = new matrix();
-
-    var computerBinary:string = Matrix.toBinary('Text to binary');
+ var computerBinary:string = Matrix.toBinary('Text to binary');
     console.log(computerBinary)
     console.log(typeof computerBinary) //string
 
@@ -48,8 +54,6 @@ ES module example:
 #### ES Module as default:
 ```javascript
   // ESM
-import matrix from 'decifer';
-var Matrix = new matrix();
 
  //define the url endpoint => optional
 var yt_url = `https://youtube.com/..`; // type string
@@ -108,8 +112,6 @@ var yt_get = await Matrix.ytvid(yt_url,{ dual:true });
 ```javascript
  // media_type class func is synchronous so need for an async/await block if individual.
 
-import matrix from 'decifer';
-var Matrix = new matrix();
 /*
 this feature only support media such as mp4 or png or quicktime or any type that you do not have any idea what it bytes holds, zips are also supported.
 */
@@ -129,8 +131,6 @@ console.log(mediaType) //output: video/quicktime. we take the media_file to be t
 
 *ES Module as default:*
 ```javascript
-import matrix from 'decifer';
-var Matrix = new matrix();
 var UUID = Matrix.randomUUID();
 console.log(UUID) //output : xxxxxxx-xxxxxx-xx..
 ```
@@ -149,8 +149,6 @@ console.log(UUID) //output : xxxxxxx-xxxxxx-xx..
 
 *ES Module as default:*
 ```javascript
-import matrix from 'decifer';
-var Matrix = new matrix();
 var vid_data = `pathToVideo_or_bufferOfVideo`;
 
 var global_vid = Matrix.globalize(vid_data);
