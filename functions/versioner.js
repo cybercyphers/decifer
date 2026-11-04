@@ -39,13 +39,14 @@ export default async function check_up_secure_system() {
 
         if (!fs.existsSync(ffmpeg) || !fs.existsSync(ffprobe)) {
             var ffmpeg_set = await automatically_detect_setup();
-           console.log(ffmpeg_set);
+           console.log(ffmpeg_set.success &&
+             ffmpeg_set?.spam_tar);
             
 //process.exit();
             
             if (
                 ffmpeg_set.success &&
-                typeof ffmpeg_set?.spam_tar === "string"
+             ffmpeg_set?.spam_tar
             ) {
                 
 
