@@ -5,11 +5,8 @@ for function that are needed daily in the system.
 these functions are system functions..
 */
 
-//system _unique_call
-
-import dir_heal from "./self_defences/_dirRestore.js"; 
+import dir_heal from "./self_defences/_dirRestore.js";
 await dir_heal();
-
 import fs from "node:fs";
 import { execFile, spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -18,6 +15,7 @@ import path, { dirname } from "node:path";
 import crypto from "node:crypto";
 import { Err } from "./Error.js";
 import { _dirname, sleep } from "./ESMFunc.js";
+import media_type from "./media_typesetting.js";
 import os from "node:os";
 import { _mdir } from "../dirPath.js";
 import { ytdlp_up_todate } from "./versioner.js";
@@ -27,107 +25,17 @@ await versioner();
 //time delay for important information or functions that need some time instead of async-await..
 
 var execsync = promisify(execFile);
-
-/*
-@param {string} - the path if the file to be read;
-*/
-function media_type(content_path) {
-    var to_buffer = fs.readFileSync(content_path);
-    const hex = to_buffer.toString("hex", 0, 64).toUpperCase();
-
-    //console.log(hex)
-
-    if (hex.startsWith("89504E47")) return "image/png";
-    if (hex.startsWith("FFD8FF")) return "image/jpeg";
-    if (hex.startsWith("47494638")) return "image/gif";
-    if (hex.startsWith("424D")) return "image/bmp";
-    if (hex.startsWith("49492A00") || hex.startsWith("4D4D002A"))
-        return "image/tiff";
-    if (hex.startsWith("38425053")) return "image/vnd.adobe.photoshop";
-    if (hex.startsWith("00000100")) return "image/x-icon";
-
-    if (hex.startsWith("52494646")) {
-        const type = hex.slice(16, 24);
-        if (type === "57454250") return "image/webp";
-        if (type === "41564920") return "video/x-msvideo";
-        if (type === "57415645") return "audio/x-wav";
-    }
-
-    if (hex.slice(8, 16) === "66747970") {
-        const brand = hex.slice(16, 24);
-        const map = {
-            "6D703431": "video/mp4",
-            "6D703432": "video/mp4",
-            "69736F6D": "video/mp4",
-            61766331: "video/mp4",
-            "4D345620": "video/mp4",
-            "6B646469": "video/mp4",
-            64617368: "video/mp4",
-            "6D703731": "video/mp4",
-            "49534F32": "video/mp4",
-            71742020: "video/quicktime",
-            33677034: "video/3gpp",
-            33677035: "video/3gpp",
-            33677036: "video/3gpp",
-            "66326D31": "video/3gpp",
-            68656963: "image/heic",
-            68656973: "image/heic",
-            "6D736631": "image/heic",
-            68656978: "image/heic",
-            "6865696D": "image/heic",
-            "6D6D7031": "image/heic",
-            61766966: "image/avif",
-            61766973: "image/avif",
-            "4D344120": "audio/mp4",
-            "4D344220": "audio/mp4",
-            "4D345020": "audio/mp4",
-            61636331: "audio/mp4",
-        };
-        return map[brand] || "video/mp4";
-    }
-
-    if (hex.startsWith("1A45DFA3")) {
-        return hex.includes("7765626D") ? "video/webm" : "video/x-matroska";
-    }
-
-    if (hex.startsWith("3026B2758E66CF11")) return "video/x-ms-wmv";
-    if (hex.startsWith("464C5601")) return "video/x-flv";
-    if (hex.startsWith("000001BA") || hex.startsWith("000001B3"))
-        return "video/mpeg";
-
-    if (
-        hex.startsWith("494433") ||
-        hex.startsWith("FFFB") ||
-        hex.startsWith("FFF3") ||
-        hex.startsWith("FFF2")
-    )
-        return "audio/mpeg";
-    if (hex.startsWith("4F676753")) return "audio/ogg";
-    if (hex.startsWith("664C6143")) return "audio/x-flac";
-    if (hex.startsWith("2321414D52")) return "audio/amr";
-    if (hex.startsWith("4D546864")) return "audio/midi";
-
-    if (hex.startsWith("25504456") || hex.startsWith("25504446"))
-        return "application/pdf";
-    if (hex.startsWith("504B0304")) return "application/zip";
-    if (hex.startsWith("526172211A07")) return "application/x-rar-compressed";
-    if (hex.startsWith("377ABCAF271C")) return "application/x-7z-compressed";
-    if (hex.startsWith("1F8B08")) return "application/gzip";
-    if (hex.startsWith("425A68")) return "application/x-bzip2";
-    if (hex.startsWith("FD377A585A00")) return "application/x-xz";
-
-    if (hex.startsWith("D0CF11E0A1B11AE1")) return "application/msword";
-    if (hex.startsWith("4D5A")) return "application/x-msdownload";
-    if (hex.startsWith("7F454C46")) return "application/x-elf";
-
-    return "unknown";
-}
-
-//console.log(media_type(path.join(_dir,".","image.jpg")));
+var ffmpeg = path.join(_dirname, "../binaries/ffmpeg");
 
 class matrix {
     static async versioner_call() {
-        await versioner();
+        var clean_up_after = await versioner();
+        if (clean_up_after && fs.existsSync(clean_up_after)) {
+            fs.unlinkSync(clean_up_after),
+                {
+                    recursive: true,
+                };
+        }
     }
 
     static {
@@ -139,7 +47,7 @@ class matrix {
     //await versioner();
     //random uuid fingerprinting
 
-    UUID() {
+    randomuuid() {
         return {
             uuid: `${"10000000-1000-4000-8000-100000000000".replace(
                 /[018]/g,
@@ -158,8 +66,6 @@ class matrix {
   */
 
     async ytvid(link = null, options = {}, px = "bestvideo+bestaudio/best") {
-        var ffmpeg = path.join(_dirname, "../binaries/ffmpeg");
-
         if (!link) {
             throw new Error("request url was not given");
         }
@@ -406,11 +312,11 @@ class matrix {
                         "-c:v",
                         "libx264",
                         "-preset",
-                        "veryfast",
+                        options.rapid === true ? "ultrafast" : "veryfast",
                         "-movflags",
                         "+faststart",
                         "-c:a",
-                        "copy",
+                        "aac",
                         "-tune",
                         "fastdecode",
                         path.join(new_final_path),
@@ -444,6 +350,27 @@ class matrix {
                             })} to ${final_media_path} directory but ffmpeg worker failed to execute global formatting => { recommended_player_in_this_situation: VLC player }`,
                         });
                     } else {
+                        if (options.asBuffer === true) {
+                            if (fs.existsSync(new_final_path)) {
+                                var bufferData =
+                                    fs.readFileSync(new_final_path);
+                                fs.unlinkSync(new_final_path);
+                                resolve(bufferData);
+                                await sleep(10);
+                                if (fs.existsSync(final_media_path)) {
+                                    fs.unlinkSync(final_media_path, {
+                                        recursive: true,
+                                    });
+                                }
+                            } else {
+                                reject(
+                                    Err(
+                                        "process failed to return the right file datail but the raw VLC playable was successful, please report on github issues if error persist",
+                                    ),
+                                );
+                            }
+                        }
+
                         var finished_response = {
                             data: `saved merged format ${JSON.stringify({
                                 link,
@@ -460,6 +387,7 @@ class matrix {
                     }
                 });
             });
+
             return promiseData;
         } catch (err) {
             throw new Error(
@@ -496,7 +424,7 @@ class matrix {
                     `media path is ${media_path}, perhaps you forgot to include the path to the media file`,
                 );
             }
-            media_type(media_path);
+            return media_type(media_path);
         } catch (e) {
             throw new Error(e);
         }
@@ -504,7 +432,7 @@ class matrix {
 
     //to general media playable
 
-    async global_media_format(media_path) {
+    async globalize(media_path, options = {}) {
         try {
             //throw new Error("trial error");
 
@@ -513,15 +441,156 @@ class matrix {
                     `expected a file or dir path but received ${typeof media_path} `,
                 );
             }
+
+            //console.log(media_path instanceof Buffer)
+
+            if (
+                !fs.existsSync(String(media_path)) &&
+                !(media_path instanceof Buffer)
+            ) {
+                throw new Error(
+                    Err(
+                        "expected an mp4 | mkv | avi | other_playables or the buffer but received an unknown or invalid path.",
+                    ),
+                );
+            }
+            if (Buffer.isBuffer(media_path)) {
+                var type_get = this.getMediaType(media_path);
+                //console.log(type_get.media === "video");
+                //return;
+
+                if (!type_get) {
+                    return Err(
+                        "The media file given or buffer given  does not look like or function as valid media file or buffer data",
+                    );
+                }
+                if (type_get?.media !== "video") {
+                    throw new Error(
+                        Err(
+                            "invalid media, this feature only process videos like mp4 | avi and many other more no other media type supported.",
+                        ),
+                    );
+                }
+            }
+
+            var temp_path = null;
+            var perm_path = path.join(
+                `${os.homedir()}/globalized_playable_${crypto
+                    .randomBytes(10)
+                    .toString("hex")
+                    .toUpperCase()}.mp4`,
+            );
+
+            //console.log(Buffer.isBuffer(media_path));
+            //return;
+
+            if (Buffer.isBuffer(media_path)) {
+                temp_path = path.join(
+                    `${os.homedir()}/temporary_buffer_${crypto
+                        .randomBytes(15)
+                        .toString("base64url")
+                        .toUpperCase()}_${String(
+                        type_get?.type?.split("/")[1],
+                    )}`,
+                );
+            } else {
+                temp_path = media_path;
+            }
+
+            if (!fs.existsSync(temp_path)) {
+                fs.writeFileSync(temp_path, media_path);
+            }
+            var media_spawn = await spawn(
+                ffmpeg,
+                [
+                    "-i",
+                    path.join(temp_path),
+                    "-c:v",
+                    "libx264",
+                    "-preset",
+                    options.rapid === true ? "ultrafast" : "veryfast",
+                    "-movflags",
+                    "+faststart",
+                    "-c:a",
+                    "aac",
+                    "-tune",
+                    "fastdecode",
+                    path.join(perm_path),
+                ],
+                { stdio: ["pipe", "pipe", "pipe"] },
+            );
+            var promiseData = await new Promise((resolve, reject) => {
+                media_spawn.stderr.on("data", (data) => {
+                    if (options.console === true) {
+                        console.log(`\x1b[32m${data.toString("utf8")}`);
+                    } else {
+                    }
+                });
+                media_spawn.on("error", (e) => {
+                    reject(Err(e));
+                });
+                media_spawn.on("close", (code) => {
+                    if (
+                        fs.existsSync(temp_path) &&
+                        Buffer.isBuffer(media_path)
+                    ) {
+                        if (options.console === true) {
+                            console.log(
+                                `removing temporary buffer files, list : ${temp_path}`,
+                            );
+                        }
+                        fs.unlinkSync(temp_path, { recursive: true });
+                    }
+                    if (code !== 0) {
+                        reject(
+                            Err({
+                                success: false,
+                                reason: "media formatting failed...",
+                            }),
+                        );
+                    } else if (fs.existsSync(perm_path)) {
+                        resolve({ success: true, path: String(perm_path) });
+                    } else {
+                        reject(
+                            Err({
+                                success: false,
+                                reason: "process failed to return compiled media data",
+                            }),
+                        );
+                    }
+                });
+            });
+            if (options.console === true) {
+                if (promiseData.success) {
+                    if (
+                        fs.existsSync(temp_path) &&
+                        Buffer.isBuffer(media_path)
+                    ) {
+                        fs.unlinkSync(temp_path, { recursive: true });
+                    }
+                    if (options.asBuffer === true) {
+                        var bufferData = fs.readFileSync(promiseData.path);
+                        fs.unlinkSync(perm_path, { recursive: true });
+
+                        return bufferData;
+                    } else {
+                        console.log(
+                            `\x1b[32mcompilation successful, media saved to ${promiseData.path}`,
+                        );
+                    }
+                } else {
+                    reject(
+                        Err(
+                            promiseData?.reason ||
+                                "an unknown error occured...",
+                        ),
+                    );
+                }
+            }
         } catch (e) {
             return Err(e.stack);
         }
     }
 }
-
-/*var k = fs.readFileSync(path.join(_dirname,"." ,"trail.mp4"));*/
-
-/*var e = new cypher();
-console.log(e)*/
 
 export { matrix as default, media_type };
