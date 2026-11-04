@@ -293,7 +293,8 @@ export default async function automatically_detect_setup() {
             return await x86_32_agreed_setup();
         } else if (String(arch)?.trim()?.toLowerCase() === "x64") {
             var pre_x86_64 = await x86_64_agreed_setup();
-            console.log(pre_x86_64);
+           
+            //console.log(pre_x86_64);
             return pre_x86_64;
         } else if (String(arch)?.trim()?.toLowerCase() === "arm64") {
             return await arm64_64_agreed_setup();
