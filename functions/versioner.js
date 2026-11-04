@@ -39,7 +39,7 @@ export default async function check_up_secure_system() {
 
         if (!fs.existsSync(ffmpeg) || !fs.existsSync(ffprobe)) {
             var ffmpeg_set = await automatically_detect_setup();
-            console.log(ffmpeg_set);
+            //console.log(ffmpeg_set);
 
             if (
                 ffmpeg_set.success &&
