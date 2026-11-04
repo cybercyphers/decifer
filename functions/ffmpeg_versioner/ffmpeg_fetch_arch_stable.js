@@ -56,7 +56,7 @@ async function x86_64_agreed_setup() {
             if (fs.existsSync(tar_xz_path)) {
                 var spawn_ff = x86_64_tar.split(".")[0];
 
-                var extract_spwan = await spawn(
+                var extract_spawn = await spawn(
                     "tar",
                     [
                         "-xvf",
@@ -139,7 +139,7 @@ async function x86_32_agreed_setup() {
             if (fs.existsSync(tar_xz_path)) {
                 var spawn_ff = x86_32_tar.split(".")[0];
 
-                var extract_spwan = await spawn(
+                var extract_spawn = await spawn(
                     "tar",
                     [
                         "-xvf",
