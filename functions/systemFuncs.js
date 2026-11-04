@@ -6,6 +6,7 @@ these functions are system functions..
 */
 
 import dir_heal from "./self_defences/_dirRestore.js";
+await dir_heal();
 import fs from "node:fs";
 import { execFile, spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -19,6 +20,7 @@ import os from "node:os";
 import { _mdir } from "../dirPath.js";
 import { ytdlp_up_todate } from "./versioner.js";
 import versioner from "./versioner.js";
+await versioner();
 var _dir = dirname(fileURLToPath(import.meta.url));
 
 //time delay for important information or functions that need some time instead of async-await..
