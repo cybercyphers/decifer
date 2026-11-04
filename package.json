@@ -1,29 +1,18 @@
 {
   "name": "decifer",
-  "version": "1.2.4",
+  "version": "1.2.1",
   "description": "You very own toolkit ready to use for development.",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": {
-        "require": "./dist/index.d.cts",
-        "default": "./dist/index.d.ts"
-      },
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.js"
-    }
-  },
+  "main": "src/index.js",
+
   "files": [
-    "dist",
-    "src/",
-    "binaries/",
-    "functions/"
+    "dirPath.js",
+    "functions/",
+    "tests/",
+    "binaries/"
   ],
   "scripts": {
-    "build": "tsup src/index.js --format cjs,esm --dts --clean",
+    "build": "tsup src/index.js --format cjs,esm --dts --clean --shims",
     "prepublishOnly": "npm run build",
     "test": "echo \"No tests\" && exit 0"
   },
@@ -36,7 +25,10 @@
     "youtube download",
     "cyber cyphers",
     "video download",
-    "media info"
+    "youtube-video information",
+    "binary",
+    "computer language",
+    "XOR obfuscation"
     
   ],
   "author": "cyber cyphers",
@@ -48,11 +40,7 @@
 
   "bugs":{ "url":"https://github.com/cybercyphers/decifer/issues"
   },
-  "devDependencies": {
-    "tar": "^7.5.22",
-    "tsup": "^8.4.0",
-    "typescript": "^5.7.3"
-  },
+  
   "engines": {
     "node": ">=23"
   }
