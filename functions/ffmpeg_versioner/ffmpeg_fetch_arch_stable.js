@@ -72,11 +72,28 @@ async function x86_64_agreed_setup() {
                 );
             }
 
-            if (fs.existsSync(ffmpeg_path) && !fs.existsSync(ffprobe_path)) {
-                return { success: true, spam_tar: String(tar_xz_path) };
-            } else {
-                return { success: true, spam_tar: String(tar_xz_path) };
+            
+            var promiseData = await new ((resolve,reject)=>{
+
+                extract_spawn.on("error",(e)=>{
+                    reject(Err(e));
+                });
+                extract_spawn.on("close",(code)=>{
+                    if(code !== 0){
+                        reject(Err(`ffmpeg process returned code ${code}`));
+                    }else{
+
+if (fs.existsSync(ffmpeg_path) && !fs.existsSync(ffprobe_path)) {
+                 resolve({ success: true, spam_tar: String(tar_xz_path) });
             }
+                        
+                    };
+                    
+                })
+                
+            });
+
+          return promiseData;  
         } catch (e) {
             throw new Error(Err(e.stack));
         }
@@ -138,9 +155,28 @@ async function x86_32_agreed_setup() {
                 );
             }
 
-            if (fs.existsSync(ffmpeg_path) && !fs.existsSync(ffprobe_path)) {
-                return { success: true, spam_tar: String(tar_xz_path) };
+            
+            var promiseData = await new ((resolve,reject)=>{
+
+                extract_spawn.on("error",(e)=>{
+                    reject(Err(e));
+                });
+                extract_spawn.on("close",(code)=>{
+                    if(code !== 0){
+                        reject(Err(`ffmpeg process returned code ${code}`));
+                    }else{
+
+if (fs.existsSync(ffmpeg_path) && !fs.existsSync(ffprobe_path)) {
+                 resolve({ success: true, spam_tar: String(tar_xz_path) });
             }
+                        
+                    };
+                    
+                })
+                
+            });
+
+          return promiseData;  
         } catch (e) {
             throw new Error(Err(e.stack));
         }
@@ -148,6 +184,11 @@ async function x86_32_agreed_setup() {
         return { success: false, message: "FFMPEG & FFMPROBE already exists" };
     }
 }
+
+
+
+
+
 
 async function arm64_64_agreed_setup() {
     if (!fs.existsSync(ffmpeg_path) || !fs.existsSync(ffprobe_path)) {
@@ -198,14 +239,31 @@ async function arm64_64_agreed_setup() {
                         `*/ffmpeg`,
                         `*/ffprobe`,
                     ],
-                    { stdio: "ignore", shell: true },
+                    { stdio: ["pipe","pipe","pip"], shell: true },
                 );
             }
 
-            await sleep(1000);
-            if (fs.existsSync(ffmpeg_path) && !fs.existsSync(ffprobe_path)) {
-                return { success: true, spam_tar: String(tar_xz_path) };
+            var promiseData = await new ((resolve,reject)=>{
+
+                extract_spawn.on("error",(e)=>{
+                    reject(Err(e));
+                });
+                extract_spawn.on("close",(code)=>{
+                    if(code !== 0){
+                        reject(Err(`ffmpeg process returned code ${code}`));
+                    }else{
+
+if (fs.existsSync(ffmpeg_path) && !fs.existsSync(ffprobe_path)) {
+                 resolve({ success: true, spam_tar: String(tar_xz_path) });
             }
+                        
+                    };
+                    
+                })
+                
+            });
+
+          return promiseData;  
         } catch (e) {
             throw new Error(Err(e.stack));
         }
