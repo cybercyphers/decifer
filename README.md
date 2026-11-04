@@ -121,13 +121,13 @@ var yt_get = await Matrix.ytvid(yt_url,{ dual:true });
 import matrix from 'decifer';
 var Matrix = new matrix();
 /*
-this feature only support media such as mp4 or png or quicktime or any type that you do not have any idea what it bytes holds
+this feature only support media such as mp4 or png or quicktime or any type that you do not have any idea what it bytes holds, zips are also supported.
 */
 var path_to_media_only_file = '/path/to/media/wrong_format.png';
 
 // will throw an error if not param is given i.e the path to the media;
 
-var mediaType = Matrix.media_type(path_to_media_only_file);
+var mediaType = Matrix.getMediaType(path_to_media_only_file);
 console.log(mediaType) //output: video/quicktime. we take the media_file to be the wrong or unknown extension, this feature figure it out synchronously;
 ```
 
