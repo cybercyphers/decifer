@@ -17,6 +17,7 @@ import { _dirname } from "../functions/ESMFunc.js";
 import { _mdir } from "../dirPath.js";
 //check if entries are already loaded on every restart
 var entries_loaded = false;
+import { sleep } from "../functions/ESMFuncs.js";
 
 var load_entries = async() => {
   try{  
