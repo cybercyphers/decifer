@@ -1,6 +1,6 @@
-# decifer
+# DECIFER
 
->Decifer is a sleek, lightweight package that provide, developers with mostly rare tools and long extract tools such as youtube_video downloads and media_type_identifiers, etc.
+>`Decifer` is a sleek, lightweight package that provide, developers with mostly rare tools and long extract tools such as youtube_video downloads and media_type_identifiers, etc.
 
 [![Socket Badge](https://badge.socket.dev/npm/package/decifer/0.0.1)](https://badge.socket.dev/npm/package/decifer/0.0.1)
 
@@ -75,7 +75,7 @@ var yt_url = `https://youtube.com/..`; // type string
 
 *ES Module as default, fallback:*
 
->if no format option is given, it defaults to disk install. The media gets installed onto the server in the home_directory, and if { asBuffer:true } option is called, media data is rather stored as buffer in the memory than on disk.
+>if no format option is given, it defaults to disk install. The media gets installed onto the server in the home_directory, and if `{ asBuffer:true }` option is called, media data is rather stored as buffer in the memory than on disk.
 
 ```javascript
 var yt_url = `youtube_url`;
@@ -147,15 +147,15 @@ console.log(UUID) //output : xxxxxxx-xxxxxx-xx..
 
 
 # video_globalizing:
-> some media contains formats or bytes that modern devices or some devices do not support, and this function is just in to sort that out, it converts the video { mp4, avi and many other more video_formats } to a global video format. Each atom or byte of that video is re_encoded with ffmpeg one at a time but with high preset.
+> some media contains formats or bytes that modern devices or some devices do not support, and this function is just in to sort that out, it converts the video `mp4, avi and many other more video_formats` to a global video format. Each atom or byte of that video is re_encoded with ffmpeg one at a time but with high preset.
 
 > options - { asBuffer:true } => to receive data in buffer instead of direct disk.
 
 > [!WARNING]
-> Enabling **{ rapid:true }** in class.globalize() will result in a high file size but speed up the work process.
+> Enabling `{ rapid:true }` in class.globalize() will result in a high file size but speed up the work process.
 
 > [!IMPORTANT]
-> If the media is being processed with a path than buffer, its final outpu will always be compiled to an *MP4* with a .mp4 extention
+> If the media is being processed with a path than buffer, its final outpu will always be compiled to an `MP4` with a `.mp4` extension
 
 *ES Module as default:*
 ```javascript
