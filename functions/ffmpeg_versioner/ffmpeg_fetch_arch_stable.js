@@ -79,7 +79,7 @@ async function x86_64_agreed_setup() {
                     reject(Err(e));
                 });
                 extract_spawn.on("close",(code)=>{
-                    console.log(code,fs.existsSync(ffmpeg_path),fs.existsSymc(ffprobe_path)));
+                    console.log(code,fs.existsSync(ffmpeg_path),fs.existsSymc(ffprobe_path));
                     
                     if(code !== 0){
                         reject(Err(`ffmpeg process returned code ${code}`));
