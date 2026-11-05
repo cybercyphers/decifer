@@ -669,6 +669,39 @@ var pre_matrix = class matrix {
     //yt fetch only ends its reign
 
 
+function binSync(from){
+  try{
+    if(!from){
+      throw new Error(Err("The binary to copy was not given."))
+    }
+    var fromLower = from.trim().toLowerCase();
+    var available_names = ["ffmpeg","ffprobe","ytdlp"];
+
+    if(fromLower !== "ffmpeg" && fromLower !== "ffprobe" && fromLower !== "ytdlp"){
+      throw new Error(`invalid binary name, allowed => ${JSON.stringify(available_names)}`);
+    };
+
+    var path_to_bin = path.join(__dir,"../binaries",String(from.trim()));
+
+    if(!fs.existsSync(path_to_bin)){
+      throw new Error(`the requested binary was not found, please reload the entries fo the fix`);
+    }
+
+    var read_bin = fs.readFileSync(path_to_bin);
+
+    if(read_bin){
+      return read_bin;
+    }else{
+      throw new Error("the given file retuned, undefined, reload the entries for a fix");
+    };
+
+  }catch(e){
+    throw new Error(Err(e));
+  }
+};
+
+
+    
 
     //more func coming with different styles 😊
 
