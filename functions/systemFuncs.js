@@ -584,7 +584,86 @@ var pre_matrix = class matrix {
         } catch (e) {
             return Err(e.stack);
         }
-    }
+    };
+    
+
+
+    //install only, for what u prefer
+    async yt_fetch_no_decode(url,ffmpeg=path.join(__dir,"../binaries","ffmpeg")){
+        var saved_path =    path.join(
+                            os.homedir(),
+                            String(url).replaceAll(" ", "_").replaceAll("/","_")+".mp4";
+        
+        try{
+
+        var yt_only_spawn = await spawn(
+                    path.join(_dirname, "../binaries/ytdlp"),
+                    [
+                        "--extractor-args",
+                        "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
+                        "--user-agent",
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                        "--ffmpeg-location",
+                        ffmpeg,
+                        "-f",
+                        "bv*[ext=mp4]+ba[ext=m4a]/bv+ba",
+                        "--merge-output-format",
+                        "mp4",
+                        "--js-runtimes",
+                        `node:${process.execPath}`,
+                        "-o",
+                        saved_path
+                        ),
+                        `${String(url?.trim())}`,
+                        "--newline",
+                        "--no-playlist",
+                    ],
+            { stdio: ["pipe","pipe","pipe"] }
+        );
+                /* return*/
+                //console.log(stdout,stderr);
+            var promiseData = await new Promise((resolve,reject)=>{
+                
+            yt_only_spawn.on("error",(e)=>{
+                reject(Err(e.toString()));
+               }); 
+
+                yt_only_spawn.on("close",(code)=>{
+                      if(Number(code) !== 0){
+                          reject(Err({ 
+                              success:false,
+                              reason : `yt_only failed to complete its work given code:${code}`
+                          }));
+                      }else{
+                          
+                          if(fs.existsSync(saved_path)){
+                          resolve({
+                              success:true,
+                              path: String(saved_path)
+                          });
+                              
+                          }
+                          else{
+                              reject({
+                                  success:false,
+                                  reason : "ytdlp failed to save the fetched binary"
+                              })
+                          }
+                      }
+                })
+            });
+            
+        }catch(e){
+            throw new Error(Err(e));
+        };
+
+    };
+    //yt fetch only ends its reign
+
+
+
+    //more func coming with different styles 😊
+
 };
 
 
