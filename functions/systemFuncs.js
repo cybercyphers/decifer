@@ -623,6 +623,12 @@ var pre_matrix = class matrix {
                 /* return*/
                 //console.log(stdout,stderr);
             var promiseData = await new Promise((resolve,reject)=>{
+
+            yt_only_spawn.stderr.on("data",(data)=>{
+                console.log(data.toString("utf8");
+            });
+                
+
                 
             yt_only_spawn.on("error",(e)=>{
                 reject(Err(e.toString()));
