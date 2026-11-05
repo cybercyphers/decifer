@@ -11,7 +11,7 @@ import versioner from "../functions/versioner.js";
 import fs from "node:fs";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import pre_matrix from "../functions/systemFuncs.js";
+import pre_matrix, { media_type as getMediaType } from "../functions/systemFuncs.js";
 import { Err } from "../functions/Error.js";
 import { _dirname } from "../functions/ESMFunc.js";
 import { _mdir } from "../dirPath.js";
@@ -41,7 +41,8 @@ var load_entries = async() => {
     };
 
 var matrix = {
-  loadEntries : load_entries
+  loadEntries : load_entries,
+  getMediaType : getMediaType
 };
 
 export { matrix as default };
