@@ -669,7 +669,7 @@ var pre_matrix = class matrix {
     //yt fetch only ends its reign
 
 
-function binSync(from){
+       binSync(from){
   try{
     if(!from){
       throw new Error(Err("The binary to copy was not given."))
