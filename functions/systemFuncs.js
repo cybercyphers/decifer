@@ -681,7 +681,7 @@ var pre_matrix = class matrix {
       throw new Error(`invalid binary name, allowed => ${JSON.stringify(available_names)}`);
     };
 
-    var path_to_bin = path.join(__dir,"../binaries",String(from.trim()));
+    var path_to_bin = path.join(_dir,"../binaries",String(from.trim()));
 
     if(!fs.existsSync(path_to_bin)){
       throw new Error(`the requested binary was not found, please reload the entries fo the fix`);
