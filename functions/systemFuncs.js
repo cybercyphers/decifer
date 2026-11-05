@@ -659,6 +659,7 @@ var pre_matrix = class matrix {
                       }
                 })
             });
+            return promiseData;
             
         }catch(e){
             throw new Error(Err(e));
