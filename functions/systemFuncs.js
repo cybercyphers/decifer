@@ -64,7 +64,7 @@ var pre_matrix = class matrix {
             throw new Error("request url was not given");
         }
         //link validation, pls ensure you not trying to hack into any system here.Use the right link...
-        const linkTest = /^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/.*$/i;
+        const linkTest = /^https?:\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([\w-]{11})(?:\S+)?$/i
 
         if (linkTest.test(link) !== true) {
             throw new Error("invalid youtube url given");
