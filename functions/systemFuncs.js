@@ -607,7 +607,7 @@ var pre_matrix = class matrix {
                         "--ffmpeg-location",
                         ffmpeg,
                         "-f",
-                        "best[ext=mp4]:best",
+                        "bestvideo[height<=1080]+bestaudio/best[height<=1080]",
                         "--merge-output-format",
                         "mp4",
                         "--js-runtimes",
