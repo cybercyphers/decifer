@@ -607,16 +607,17 @@ var pre_matrix = class matrix {
                         "--ffmpeg-location",
                         ffmpeg,
                         "-f",
-                        "bestvideo[height<=1080][tbr<1500][vcodec^=avc]+bestaudio/best[height<=1080][tbr<1500]",
+                        "bestvideo[height<=1080][tbr<1500][vcodec^=avc]+bestaudio[ext=m4a]/best[height<=1080][tbr<1500][ext=mp4]",
                         "--merge-output-format",
                         "mp4",
+                        "--remux-video","mp4",
                         "--js-runtimes",
                         `node:${process.execPath}`,
                         "-o",
                         saved_path,
                         `${String(url?.trim())}`,
                         "--newline",
-                        "--no-playlist",
+                        "--no-playlist"
                     ],
             { stdio: ["pipe","pipe","pipe"] }
         );
