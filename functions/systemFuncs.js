@@ -154,7 +154,7 @@ var pre_matrix = class matrix {
                     path.join(_dirname, "../binaries/ytdlp"),
                     [
                         "--extractor-args",
-                        "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
+                        "youtube:player_client=default,web_embedded",
                         "--js-runtimes",
                         `node:${process.execPath}`,
                         "--user-agent",
@@ -183,7 +183,7 @@ var pre_matrix = class matrix {
                     path.join(_dirname, "../binaries/ytdlp"),
                     [
                         "--extractor-args",
-                        "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
+                        "youtube:player_client=default,web_embedded",
                         "--js-runtimes",
                         `node:${process.execPath}`,
                         "--user-agent",
@@ -209,7 +209,7 @@ var pre_matrix = class matrix {
                     path.join(_dirname, "../binaries/ytdlp"),
                     [
                         "--extractor-args",
-                        "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
+                        "youtube:player_client=default,web_embedded",
                         "--js-runtimes",
                         `node:${process.execPath}`,
                         "--user-agent",
@@ -233,7 +233,7 @@ var pre_matrix = class matrix {
                         "--js-runtimes",
                         `node:${process.execPath}`,
                         "--extractor-args",
-                        "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
+                        "youtube:player_client=default,web_embedded",
                         "--user-agent",
                         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
                         "--ffmpeg-location",
@@ -257,7 +257,7 @@ var pre_matrix = class matrix {
                     path.join(_dirname, "../binaries/ytdlp"),
                     [
                         "--extractor-args",
-                        "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
+                        "youtube:player_client=default,web_embedded",
                         "--user-agent",
                         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
                         "--ffmpeg-location",
@@ -601,7 +601,7 @@ var pre_matrix = class matrix {
                     path.join(_dirname, "../binaries/ytdlp"),
                     [
                         "--extractor-args",
-                        "youtube:player_client=mweb,tv,ios,android",
+                        "youtube:player_client=default,web_embedded",
                         "--user-agent",
                         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
                         "--ffmpeg-location",
