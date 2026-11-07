@@ -702,6 +702,102 @@ var pre_matrix = class matrix {
 };
 
 
+//audio only path begins
+    
+    async yt_audio_only(url, options = {}){
+  try{
+    var ytdlp_path = path.join(_dir,"../binaries","ytdlp");
+
+    if(!url){
+      throw new Error(`expected a valid youtube url but received, ${typeof url}`);
+    };
+
+    const linkTest = /^https?:\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([\w-]{11})(?:\S+)?$/i
+
+    if (linkTest.test(String(url?.trim())) !== true) {
+      throw new Error("invalid youtube url given");
+    }
+
+    if(!fs.existsSync(ytdlp_path)){
+      throw new Error("youtube download binary path has been revoked, reload the entries for a quick fix");
+    };
+
+    var path_to_save = path.join(`${os.homedir()}`,`${crypto.randomBytes(16).toString("base64url")}.tmp`);
+
+    var audio_spawn = await spawn(ytdlp_path,
+      [
+        "-f","ba[ext=m4a]",
+        "-x",
+        "--audio-format","m4a",
+        "-o", path_to_save,
+        String(url)
+      ],
+      {
+        stdio:["pipe","pipe","pipe"]
+      }
+    );
+    //promise system begins
+    var promiseData = await new Promise((resolve,reject)=>{
+        audio_spawn.stderr.on("data",(data)=>{
+            if(options.console === true ){
+              console.log(data.toString("utf8"))
+            };
+
+          });
+
+        audio_spawn.on("error",(e)=>{
+            reject(e.toString("utf8"));
+          });
+
+        audio_spawn.on("close",(code)=>{
+            if(parseInt(code) !==  0){
+              reject(`youtube failed to get `)
+            }else{
+              if(fs.existsSync(path_to_save)){
+                resolve({
+                    success:true,
+                    path:path_to_save
+                  });
+              }else{
+                reject({
+                    success: false,
+                    reason: "the path retuned by the worker was missing or has been manually revoked"
+                  })
+              }
+            }
+            //spawn close ends here
+
+          })
+        //promise ends here
+
+      });
+
+    if(options.asBuffer === true){
+      if(fs.existsSync(path_to_save)){
+        var buffer_read = fs.readFileSync(path_to_save);
+        fs.unlinkSync(path_to_save,{ recursive:true });
+        return {
+          success:true,
+          promiseData:buffer_read
+        };
+
+      }else{
+        return promiseData;
+      }
+    }else{
+
+      throw new Error("The media path has been automatically or manually revoked");
+
+    };
+
+  }catch(e){
+    throw new Error(Err(e));
+  }
+};
+    //audio reign ends
+
+
+
     
 
     //more func coming with different styles 😊
