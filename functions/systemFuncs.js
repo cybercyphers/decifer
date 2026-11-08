@@ -737,6 +737,9 @@ var pre_matrix = class matrix {
       }
     );
     //promise system begins
+
+      var new_path = path_to_save+".m4a";
+      
     var promiseData = await new Promise((resolve,reject)=>{
         audio_spawn.stderr.on("data",(data)=>{
             if(options.console === true ){
@@ -771,7 +774,6 @@ var pre_matrix = class matrix {
         //promise ends here
 
       });
-      var new_path = path_to_save+".m4a";
 
     if(options.asBuffer === true){
       if(fs.existsSync(new_path)){
