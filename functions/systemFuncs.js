@@ -756,10 +756,10 @@ var pre_matrix = class matrix {
             if(parseInt(code) !==  0){
               reject(`youtube failed to get `)
             }else{
-              if(fs.existsSync(path_to_save)){
+              if(fs.existsSync(new_path)){
                 resolve({
-                    success:true,
-                    path:path_to_save
+                    success: true,
+                    path: new_path
                   });
               }else{
                 reject({
