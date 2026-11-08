@@ -771,11 +771,12 @@ var pre_matrix = class matrix {
         //promise ends here
 
       });
+      var new_path = path_to_save+".m4a";
 
     if(options.asBuffer === true){
-      if(fs.existsSync(path_to_save)){
-        var buffer_read = fs.readFileSync(path_to_save);
-        fs.unlinkSync(path_to_save,{ recursive:true });
+      if(fs.existsSync(new_path)){
+        var buffer_read = fs.readFileSync(new_path);
+        fs.unlinkSync(new_path,{ recursive:true });
         return {
           success:true,
           promiseData:buffer_read
