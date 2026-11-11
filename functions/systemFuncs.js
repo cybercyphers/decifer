@@ -166,6 +166,10 @@ var pre_matrix = class matrix {
                         `bestvideo+bestaudio/best`,
                         "-g",
                         `${String(link)}`,
+                        '--socket-timeout', parseInt(options.timeout),
+        '--retries', '3',
+        '-4',
+        '-v',
                     ],
                 );
                 var data = stdout.split("\n");
@@ -194,6 +198,10 @@ var pre_matrix = class matrix {
                         "--skip-download",
                         "--dump-json",
                         `${String(link)}`,
+                        '--socket-timeout', parseInt(options.timeout),
+        '--retries', '3',
+        '-4',
+        '-v',
                     ],
                     {
                         maxBuffer: 1024 * 1024 * 20,
@@ -240,6 +248,10 @@ var pre_matrix = class matrix {
                         "--ffmpeg-location",
                         ffmpeg,
                         String(link),
+                        '--socket-timeout', parseInt(options.timeout),
+        '--retries', '3',
+        '-4',
+        '-v'
                     ],
                     {
                         stdio: ["pipe", "pipe", "pipe"],
@@ -277,6 +289,10 @@ var pre_matrix = class matrix {
                         `${String(link)}`,
                         "--newline",
                         "--no-playlist",
+                        '--socket-timeout', parseInt(options.timeout),
+        '--retries', '3',
+        '-4',
+        '-v'
                     ],
                 );
                 /* return*/
@@ -618,9 +634,13 @@ var pre_matrix = class matrix {
                         saved_path,
                         `${String(url?.trim())}`,
                         "--newline",
-                        "--no-playlist"
+                        "--no-playlist",
+                        '--socket-timeout', parseInt(options.timeout),
+        '--retries', '3',
+        '-4',
+        '-v'
                     ],
-            { stdio: ["pipe","pipe","pipe"] }
+            { stdio: ["ignore","pipe","pipe"] }
         );
                 /* return*/
                 //console.log(stdout,stderr);
@@ -732,10 +752,14 @@ var pre_matrix = class matrix {
         "-x",
         "--audio-format","m4a",
         "-o", path_to_save,
+       '--socket-timeout', parseInt(options.timeout),
+        '--retries', '3',
+        '-4',
+        '-v',
         String(url)
       ],
       {
-        stdio:["pipe","pipe","pipe"]
+        stdio:["ignore","pipe","pipe"]
       }
     );
     //promise system begins
