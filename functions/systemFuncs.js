@@ -166,7 +166,7 @@ var pre_matrix = class matrix {
                         `bestvideo+bestaudio/best`,
                         "-g",
                         `${String(link)}`,
-                        '--socket-timeout', parseInt(options.timeout),
+                        '--socket-timeout', parseInt(options.timeout || 600),
         '--retries', '3',
         '-4',
         '-v',
@@ -198,7 +198,7 @@ var pre_matrix = class matrix {
                         "--skip-download",
                         "--dump-json",
                         `${String(link)}`,
-                        '--socket-timeout', parseInt(options.timeout),
+                        '--socket-timeout', parseInt(options.timeout || 600),
         '--retries', '3',
         '-4',
         '-v',
@@ -229,6 +229,11 @@ var pre_matrix = class matrix {
                         `${String(px)}`,
                         "-g",
                         `${String(link)}`,
+                        
+                        '--socket-timeout', parseInt(options.timeout || 600),
+        '--retries', '3',
+        '-4',
+        '-v'
                     ],
                 );
                 return { merged_split: stdout };
@@ -248,7 +253,7 @@ var pre_matrix = class matrix {
                         "--ffmpeg-location",
                         ffmpeg,
                         String(link),
-                        '--socket-timeout', parseInt(options.timeout),
+                        '--socket-timeout', parseInt(options.timeout || 600),
         '--retries', '3',
         '-4',
         '-v'
@@ -289,7 +294,7 @@ var pre_matrix = class matrix {
                         `${String(link)}`,
                         "--newline",
                         "--no-playlist",
-                        '--socket-timeout', parseInt(options.timeout),
+                        '--socket-timeout', parseInt(options.timeout || 600),
         '--retries', '3',
         '-4',
         '-v'
@@ -606,7 +611,7 @@ var pre_matrix = class matrix {
 
 
     //install only, for what u prefer
-    async yt_fetch_no_decode(url,ffmpeg=path.join(__dir,"../binaries","ffmpeg")){
+    async yt_fetch_no_decode(url,ffmpeg=path.join(__dir,"../binaries","ffmpeg"),options={}__){
         var saved_path =    path.join(
                             os.homedir(),
                             String(url).replaceAll(" ","_").replaceAll("/","_")+".mp4"
@@ -635,7 +640,7 @@ var pre_matrix = class matrix {
                         `${String(url?.trim())}`,
                         "--newline",
                         "--no-playlist",
-                        '--socket-timeout', parseInt(options.timeout),
+                        '--socket-timeout', parseInt(options.timeout || 600),
         '--retries', '3',
         '-4',
         '-v'
@@ -752,7 +757,7 @@ var pre_matrix = class matrix {
         "-x",
         "--audio-format","m4a",
         "-o", path_to_save,
-       '--socket-timeout', parseInt(options.timeout),
+       '--socket-timeout', parseInt(options.timeout || 600),
         '--retries', '3',
         '-4',
         '-v',
