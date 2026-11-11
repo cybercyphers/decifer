@@ -611,7 +611,7 @@ var pre_matrix = class matrix {
 
 
     //install only, for what u prefer
-    async yt_fetch_no_decode(url,ffmpeg=path.join(__dir,"../binaries","ffmpeg"),options={}__){
+    async yt_fetch_no_decode(url,ffmpeg=path.join(__dir,"../binaries","ffmpeg"),options={}){
         var saved_path =    path.join(
                             os.homedir(),
                             String(url).replaceAll(" ","_").replaceAll("/","_")+".mp4"
