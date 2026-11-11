@@ -19,37 +19,37 @@ import { _mdir } from "../dirPath.js";
 var entries_loaded = false;
 import { sleep } from "../functions/ESMFunc.js";
 
-var load_entries = async(console = true) => {
+var load_entries = async(terminal = true) => {
   try{  
-    if(console === true){
+    if(terminal === true){
     console.log("setting_up binaries...");
     }
             await dir_heal();
-    if(console === true){
+    if(terminal === true){
     console.log("compiling binaries...");
     };
     
     var clean_up_after = await versioner();
     await sleep(800); 
-    if(console === true){
+    if(terminal === true){
     console.log("done");
     };
         if (clean_up_after && fs.existsSync(clean_up_after)) {
-          if(console === true){
+          if(terminal === true){
     console.log("cleaning up compiled binary trash...");
     };
             fs.unlinkSync(clean_up_after),
                 {
                     recursive: true,
                 };
-          if(console === true){
+          if(terminal === true){
     console.log("done");
     };
           
         };
     
     entries_loaded = true;
-    if(console === true){
+    if(terminal === true){
     console.log("exported main functions and classes...done");
     };
     return pre_matrix;
