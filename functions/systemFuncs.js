@@ -64,7 +64,8 @@ var pre_matrix = class matrix {
             throw new Error("request url was not given");
         }
         //link validation, pls ensure you not trying to hack into any system here.Use the right link...
-        const linkTest = /^https?:\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([\w-]{11})(?:\S+)?$/i
+        const linkTest = /^https?:\/\/(?:www\.|m\.|music\.)?(?:youtube\.com\/(?:watch\?(?:.*&)?v=[\w-]{11}|(?:embed|v|shorts|live)\/[\w-]{11}|playlist\?list=[\w-]+|channel\/UC[\w-]{22}|(?:c\/|user\/)?[\w.-]+|@[\w.-]+)|youtu\.be\/[\w-]{11})(?:[?&]\S*)?$/i
+
 
         if (linkTest.test(String(link?.trim())) !== true) {
             throw new Error("invalid youtube url given");
@@ -712,8 +713,9 @@ var pre_matrix = class matrix {
       throw new Error(`expected a valid youtube url but received, ${typeof url}`);
     };
 
-    const linkTest = /^https?:\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([\w-]{11})(?:\S+)?$/i
+    const linkTest = /^https?:\/\/(?:www\.|m\.|music\.)?(?:youtube\.com\/(?:watch\?(?:.*&)?v=[\w-]{11}|(?:embed|v|shorts|live)\/[\w-]{11}|playlist\?list=[\w-]+|channel\/UC[\w-]{22}|(?:c\/|user\/)?[\w.-]+|@[\w.-]+)|youtu\.be\/[\w-]{11})(?:[?&]\S*)?$/i
 
+      
     if (linkTest.test(String(url?.trim())) !== true) {
       throw new Error("invalid youtube url given");
     }
