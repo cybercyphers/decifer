@@ -10,7 +10,7 @@ import {
 } from "./ytdlp_versioner/yt_update_system.js";
 import { sleep } from "./ESMFunc.js";
 import automatically_detect_setup from "./ffmpeg_versioner/ffmpeg_fetch_arch_stable.js";
-
+import { Err } from "./Error.js";
 import { yt_sys_fetch } from "./ytdlp_versioner/ytdlp_system_fetch.js";
 
 var ytdlp = path.join(__dirname, "../binaries", "ytdlp");
