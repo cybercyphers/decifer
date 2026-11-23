@@ -7,8 +7,9 @@
 //unique system
 import dir_heal from "../functions/self_defences/_dirRestore.js";
 import versioner from "../functions/versioner.js";
-
+import os from "node:os";
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import pre_matrix, { media_type as getMediaType } from "../functions/systemFuncs.js";
