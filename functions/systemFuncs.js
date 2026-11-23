@@ -831,7 +831,19 @@ var pre_matrix = class matrix {
     //audio reign ends
 
 
-
+   fingerprinted(){
+       try{
+          //fetch system process and stringify;
+           
+           var systemProcessJson = JSON.stringify(process ? process : "unknown system");
+        //update to hex of 512 chars 128b;
+           
+           var hex_process = crypto.createHash(256).update(systemProcessJson).digest("hex");
+           
+       }catch(e){
+          console.error(`system fingerprinting failed code 1`); 
+       }
+   }
     
 
     //more func coming with different styles 😊
