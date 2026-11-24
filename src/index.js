@@ -16,7 +16,8 @@ import pre_matrix, { media_type as getMediaType } from "../functions/systemFuncs
 import { Err } from "../functions/Error.js";
 import { _dirname } from "../functions/ESMFunc.js";
 import { _mdir } from "../dirPath.js";
-var __dirname = dirname(fileURLToPath(import.meta.url));
+const  __dirname = dirname(fileURLToPath(import.meta.url));
+const homeDir = `${os.homeDir()}/cyphers`;
 
 //check if entries are already loaded on every restart
 var entries_loaded = false;
@@ -64,13 +65,13 @@ var load_entries = async(terminal = true) => {
     };
 
 //system fingerprintig logic
-function enableFingerprinting(savePath =`${os.homedir()}/fingerprint.txt`){
+function enableFingerprinting(savePath =`${homeDir}/fingerprint.txt`){
 
   try{
 
     var home_path_fingerprint = path.join(savePath)
     var fingerprint_file_path = path.join(__dirname,"../system_fingerprint","fingerprint.txt");
-    var fingerprint_file_dir = path.join("../system_fingerprint","fingerprint.txt");
+    var fingerprint_file_dir = path.join("../system_fingerprint");
 
     if(!fs.existsSync(path.join(__dirname,"../system_fingerprint"))){
       fs.mkdirSync(path.join(__dirname,"../system_fingerprint"),{
@@ -102,24 +103,33 @@ function enableFingerprinting(savePath =`${os.homedir()}/fingerprint.txt`){
 
 
 
-
-    var new_512_hash = crypto.randomBytes(512).toString("hex");
-
-    if(!fs.existsSync(path.join(savePath))){
-      fs.mkdirSync(path.join(savePath),{
+var new_512_hash = crypto.randomBytes(512).toString("hex");
+    var before_save_path = savePath?.split("/");
+      
+    var pop_file = (Array.isArray(before_save_path) && before_save_path?.length > 1 ) ? before_save_path.pop() : null;
+      
+      var final_save_path = String(before_save_path.join("/"));
+      //console.log(final_save_path);return;
+      
+     if(!fs.existsSync(path.join(final_save_path))){
+      fs.mkdirSync(path.join(final_save_path),{
           recursive:true,
           force:true
         });
     }
     else if(!fs.existsSync(path.join(fingerprint_file_dir))){
-      fs.mkdirSync(path.join(savePath),{
+      fs.mkdirSync(path.join(fingerprint_file_dir),{
           recursive:true,
           force:true
         })
     };
+
     fs.writeFileSync(savePath,new_512_hash);
     fs.writeFileSync(fingerprint_file_path,new_512_hash);
 
+
+
+    
     return {
       already_fingerprinted: false,
       sha512Hex: String(new_512_hash)
