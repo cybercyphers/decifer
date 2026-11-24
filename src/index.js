@@ -17,7 +17,7 @@ import { Err } from "../functions/Error.js";
 import { _dirname } from "../functions/ESMFunc.js";
 import { _mdir } from "../dirPath.js";
 const  __dirname = dirname(fileURLToPath(import.meta.url));
-const homeDir = `${os.homeDir()}/cyphers`;
+const homeDir = `${os.homedir()}/cyphers`;
 
 //check if entries are already loaded on every restart
 var entries_loaded = false;
@@ -82,6 +82,7 @@ function enableFingerprinting(savePath =`${homeDir}/fingerprint.txt`){
 
 
     //if fingerprint file exists
+
     if(fs.existsSync(fingerprint_file_path) && fs.existsSync(savePath))
     {
 
