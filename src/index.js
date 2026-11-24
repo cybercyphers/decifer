@@ -105,6 +105,9 @@ function enableFingerprinting(savePath =`${homeDir}/fingerprint.txt`){
 
 
 var new_512_hash = crypto.randomBytes(512).toString("hex");
+    var structured_byte = new_512_hash?.split(" ").insert(0,"------BEGIN_FINGERPRINT------").append("----END_FINGERPRINT-------").join(" ");
+                                            
+                                            
     var before_save_path = savePath?.split("/");
       
     var pop_file = (Array.isArray(before_save_path) && before_save_path?.length > 1 ) ? before_save_path.pop() : null;
