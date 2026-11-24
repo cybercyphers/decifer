@@ -16,6 +16,8 @@ import pre_matrix, { media_type as getMediaType } from "../functions/systemFuncs
 import { Err } from "../functions/Error.js";
 import { _dirname } from "../functions/ESMFunc.js";
 import { _mdir } from "../dirPath.js";
+var __dirname = dirname(fileURLToPath(import.meta.url));
+
 //check if entries are already loaded on every restart
 var entries_loaded = false;
 import { sleep } from "../functions/ESMFunc.js";
