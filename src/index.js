@@ -23,7 +23,7 @@ const homeDir = os.homedir();
 var entries_loaded = false;
 import { sleep } from "../functions/ESMFunc.js";
 
-var load_entries = async(terminal = true) => {
+var load_entries = async(terminal = false) => {
   try{  
     if(terminal === true){
     console.log("setting_up binaries...");
