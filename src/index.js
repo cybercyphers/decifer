@@ -106,8 +106,8 @@ function enableFingerprinting(savePath =`${homeDir}/fingerprint.txt`){
     //fingerprint indexing..
 var new_512_hash = crypto.randomBytes(512).toString("hex");
     var structured_byte = new_512_hash?.split(" ");  
-     structured_byte.splice(0,0,"--------BEGIN_FINGERPRINT--------\n");
-      structured_byte.push("\n--------END_FINGERPRINT--------");
+     structured_byte.splice(0,0,"--------BEGIN_FINGERPRINT--------");
+      structured_byte.push("--------END_FINGERPRINT--------");
     
                                             
                                             
@@ -131,15 +131,15 @@ var new_512_hash = crypto.randomBytes(512).toString("hex");
         })
     };
 
-    fs.writeFileSync(savePath,structured_byte.join(" "));
-    fs.writeFileSync(fingerprint_file_path,structured_byte.join(" "));
+    fs.writeFileSync(savePath,String(structured_byte.join(" ")).trim());
+    fs.writeFileSync(fingerprint_file_path,String(structured_byte.join(" ")).trim());
 
 
 
     
     return {
-      already_fingerprinted: false,
-      sha512Hex: String(new_512_hash)
+      already_fingerprinted: false, 
+      sha512Hex: String(String(structured_byte.join(" ")).trim())
     }
 
 
