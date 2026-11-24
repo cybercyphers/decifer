@@ -17,7 +17,7 @@ import { Err } from "../functions/Error.js";
 import { _dirname } from "../functions/ESMFunc.js";
 import { _mdir } from "../dirPath.js";
 const  __dirname = dirname(fileURLToPath(import.meta.url));
-const homeDir = `${os.homedir()}/cyphers`;
+const homeDir = os.homedir();
 
 //check if entries are already loaded on every restart
 var entries_loaded = false;
