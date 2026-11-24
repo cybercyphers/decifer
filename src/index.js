@@ -147,9 +147,63 @@ var new_512_hash = crypto.randomBytes(512).toString("hex");
     return {
       already_fingerprinted: null,
       sha512Hex: null
-    }
-  }
+    };
+  };
+};
+
+
+
+
+//revoke fingerprint
+
+function revoke_fingerprint(savePath=`${homeDir}/fingerprint.txt`){
+try{
+      if(!fs.existsSync(savePath) && String(savePath) !== `${homeDir}/fingerprint.txt`){
+          
+   return {
+       revoke_success: false,
+       reason: `${String(savePath)} has already been revoked or was never in your directory`
+          };
 }
+    else if(!fs.existsSync(savePath)){
+     return {
+         revoke_success : false,
+         reason: "no system fingerprint trace was found, create one if possible"
+            }
+};
+  
+    var before_revoke = fs.readFileSync(savePath,{ encoding:'utf8' });
+    
+   fs.unlinkSync(savePath,{ 
+       recursive:true
+   });
+    
+    
+    var finger_print_read_array = before_revoke ? (before_revoke.replace(/[^0-9a-f]/g,"") ?? '' ) ?.trim() : null;
+    
+     //console.log(finger_print_read_array);
+    
+    return { 
+        revoke_success:true,
+        path : String(savePath),
+        date : Number(Date.now()),
+        revoked_fingerprint_byte_length: finger_print_read_array?.length
+           }
+    
+}catch(e){
+   return { 
+     revoke_success: false, 
+     reason : (e || void 0)
+ };
+}
+
+};
+
+
+
+
+
+
 
 
 
@@ -158,7 +212,8 @@ var new_512_hash = crypto.randomBytes(512).toString("hex");
 var matrix = {
   loadEntries : load_entries,
   getMediaType : getMediaType,
-  fingerprintSystem: enableFingerprinting
+  fingerprintSystem: enableFingerprinting,
+  revokeFingerprint: revoke_fingerprint
 };
 
 export { matrix as default };
