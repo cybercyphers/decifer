@@ -89,9 +89,9 @@ function enableFingerprinting(savePath =`${homeDir}/fingerprint.txt`){
       var read_file_content = fs.readFileSync(fingerprint_file_path,{encoding:"utf8"});
 
       var readFileContent2 = fs.readFileSync(home_path_fingerprint);
-        var package_file = String(read_file_content)?.trim().replace(/[^0-9a-f]/g,"");
+        var package_file = String(read_file_content)?.trim()?.replace(/[^0-9a-f]/g,"");
                             
-        var dir_file = String(readFileContent2)?.trim()replace(/[^0-9a-f]/g,"");
+        var dir_file = String(readFileContent2)?.trim()?.replace(/[^0-9a-f]/g,"");
 
       if(package_file === dir_file){
        var safeComparison = crypto.timingSafeEqual(package_file,dir_file);
