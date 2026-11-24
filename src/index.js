@@ -132,7 +132,7 @@ var new_512_hash = crypto.randomBytes(512).toString("hex");
     };
 
     fs.writeFileSync(savePath,structured_byte.join(" "));
-    fs.writeFileSync(fingerprint,structured_byte.join(" "));
+    fs.writeFileSync(fingerprint_file_path,structured_byte.join(" "));
 
 
 
