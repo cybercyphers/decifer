@@ -202,13 +202,6 @@ try{
 
 
 
-
-
-
-
-
-
-
 var matrix = {
   loadEntries : load_entries,
   getMediaType : getMediaType,
