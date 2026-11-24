@@ -89,12 +89,20 @@ function enableFingerprinting(savePath =`${homeDir}/fingerprint.txt`){
       var read_file_content = fs.readFileSync(fingerprint_file_path,{encoding:"utf8"});
 
       var readFileContent2 = fs.readFileSync(home_path_fingerprint);
-      if(String(read_file_content)?.trim() === String(readFileContent2)?.trim()){
+        var package_file = String(read_file_content)?.trim().replace(/[^0-9a-f]/,"");
+                            
+        var dir_file = String(readFileContent2)?.trim()replace(/[^0-9a-f]/,"");
 
+      if(package_file === dir_file){
+       var safeComparison = crypto.timingSafeEqual(package_file,dir_file);
+          if(safeComparison){
         return {
           already_fingerprinted: true,
           sha512: String(read_file_content).trim()
         }
+          }else{
+   throw new Error("safe fingerprint comparson failed...")
+}
       }
 
     }else{
