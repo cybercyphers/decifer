@@ -94,7 +94,7 @@ function enableFingerprinting(savePath =`${homeDir}/fingerprint.txt`){
         var dir_file = String(readFileContent2)?.trim()?.replace(/[^0-9a-f]/g,"");
 
       if(package_file === dir_file){
-       var safeComparison = crypto.timingSafeEqual(package_file,dir_file);
+       var safeComparison = crypto.timingSafeEqual(Buffer.from(package_file),Buffer.from(dir_file));
           if(safeComparison){
         return {
           already_fingerprinted: true,
