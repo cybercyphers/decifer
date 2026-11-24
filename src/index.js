@@ -70,8 +70,8 @@ function enableFingerprinting(savePath =`${homeDir}/fingerprint.txt`){
   try{
 
     var home_path_fingerprint = path.join(savePath)
-    var fingerprint_file_path = path.join(__dirname,"../../system_fingerprint","fingerprint.txt");
-    var fingerprint_file_dir = path.join(__dirname,"../../system_fingerprint");
+    var fingerprint_file_path = path.join(__dirname,".././system_fingerprint","fingerprint.txt");
+    var fingerprint_file_dir = path.join(__dirname,".././system_fingerprint");
 
     if(!fs.existsSync(fingerprint_file_dir)){
       fs.mkdirSync(fingerprint_file_dir,{
