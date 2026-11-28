@@ -209,12 +209,69 @@ try{
 
 
 
+function inlineDate(date,
+                    options= { split: "/",
+object:false                 
+    }){
+  var splitter = options?.split?.trim();
+  //console.log(options);return;
+  
+  var padDigit = (num) => String(num).padStart(2, "0");
+  var year = padDigit(date.getFullYear());
+  var month = padDigit(date.getMonth() + 1);
+  var day = padDigit(date.getDate());
+  var hours = padDigit(date.getHours());
+  var minutes = padDigit(date.getMinutes());
+  var seconds = padDigit(date.getSeconds());
+  //console.log(splitter);
+  
+  if(splitter){
+    return (
+      year
+      +
+      splitter
+      +
+      month
+      +
+      splitter
+      +
+      day
+      +
+      splitter
+      +
+      hours
+      +
+      splitter
+      +
+      minutes
+      +
+      splitter
+      +
+      seconds
+    );
+  }
+  else if(options.object === true && !splitter){
+    return {
+      year: year,
+      month: month,
+      day:day,
+      hour:hours,
+      minutes:minutes,
+      seconds:seconds
+    };
+  }
+}
+
+
+
+
 
 var matrix = {
   loadEntries : load_entries,
   getMediaType : getMediaType,
   fingerprintSystem: enableFingerprinting,
-  revokeFingerprint: revoke_fingerprint
+  revokeFingerprint: revoke_fingerprint,
+  inlineDate : inlineDate
 };
 
 export { matrix as default };
